@@ -1,13 +1,13 @@
 import path from 'path';
 
-import { ILogger } from '@empiriska/js-common-backend';
-
 import {
     getJsonFileContent,
     IPackageInfo,
     PackageJsonScript,
     runPackageJsonScript,
 } from '.';
+
+import { ILogger } from '../types';
 
 interface ICoverageType {
     pct: number;
@@ -16,7 +16,7 @@ interface ICoverageType {
 interface ICoverageContent {
     total: {
         statements: ICoverageType;
-    }
+    };
 }
 
 export const runTestsReturnCoverage = async (

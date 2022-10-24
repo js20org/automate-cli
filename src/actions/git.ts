@@ -1,7 +1,5 @@
-import { ILogger, Executor } from '@empiriska/js-common-backend';
-import { assertIsString } from '@empiriska/js-common';
-
-import { ICommit } from '../types';
+import { ICommit, ILogger } from '../types';
+import { assertIsString, Executor } from '../utils';
 
 export const getGitChanges = async (logger: ILogger) => {
     const executor = new Executor(logger);
@@ -125,10 +123,13 @@ export const addAllGitFiles = async (logger: ILogger) => {
     await executor.execute('git add -A');
 };
 
-export const performGitCommitAll = async (logger: ILogger, commitMessage: string) => {
+export const performGitCommitAll = async (
+    logger: ILogger,
+    commitMessage: string
+) => {
     const commitCommand = `git commit -m "${commitMessage}"`;
     const executor = new Executor(logger);
-    
+
     await executor.execute(commitCommand);
     executor.assertOutputIncludes(commitMessage);
 };
@@ -155,7 +156,7 @@ export const createGitCommit = async (
 
 const getPullRequestUrl = (remotePushLine: string, branchName: string) => {
     const originMatch = remotePushLine.match(/:(.*)\.git/);
-    
+
     if (!originMatch) {
         throw new Error('Unable to determine origin.');
     }

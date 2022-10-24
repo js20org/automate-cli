@@ -1,11 +1,4 @@
 import {
-    getParsedSemanticVersion,
-    getSerializedSemanticVersion,
-    ILogger,
-    ISemanticVersion,
-} from '@empiriska/js-common-backend';
-
-import {
     CHANGELOG_NAME,
     createGitCommit,
     getGitCommitsSinceStart,
@@ -14,7 +7,12 @@ import {
     saveJsonFile,
 } from '.';
 
-import { ICommit } from '../types';
+import {
+    getParsedSemanticVersion,
+    getSerializedSemanticVersion,
+} from '../utils';
+
+import { ICommit, ILogger, ISemanticVersion } from '../types';
 
 const COMMIT_PREFIX = '[version] ';
 

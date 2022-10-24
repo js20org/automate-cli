@@ -1,23 +1,21 @@
 import path from 'path';
 
 import {
-    ILogger,
-    askForBoolean,
-    Executor,
-    fontDim,
-    getExtractedSemanticVersion,
-    getParsedSemanticVersion,
-} from '@empiriska/js-common-backend';
-
-import { sortObject } from '@empiriska/js-common';
-import {
     getJsonFileContent,
     getFilesRecursivelyWithoutNodeModules,
     saveJsonFile,
     getRepositoryChangelog,
 } from '.';
 
-import { IChangelogEntry } from '../types';
+import { IChangelogEntry, ILogger } from '../types';
+import {
+    askForBoolean,
+    Executor,
+    fontDim,
+    getExtractedSemanticVersion,
+    getParsedSemanticVersion,
+    sortObject,
+} from '../utils';
 
 import {
     assertAllOptionsOk,
@@ -149,9 +147,8 @@ export const getEmpiriskaPackageJson = (
     logger: ILogger,
     packageJsonFullPath: string
 ) => {
-    const packageJsonContent = getJsonFileContent<Record<string, any>>(
-        packageJsonFullPath
-    );
+    const packageJsonContent =
+        getJsonFileContent<Record<string, any>>(packageJsonFullPath);
 
     assertValidPackageJson(logger, packageJsonFullPath, packageJsonContent);
 
@@ -164,9 +161,8 @@ export const getAllOwnPackageJson = async (
     const matches = await getFilesRecursivelyWithoutNodeModules('package.json');
     const result = matches.map((m) => {
         const packageJsonFullPath = getCwdPath(m);
-        const content = getJsonFileContent<Record<string, any>>(
-            packageJsonFullPath
-        );
+        const content =
+            getJsonFileContent<Record<string, any>>(packageJsonFullPath);
 
         assertIsString(logger, m, 'name', content.name);
 

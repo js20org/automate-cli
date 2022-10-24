@@ -1,7 +1,6 @@
-import { getLargestSemanticVersion } from '@empiriska/js-common-backend';
-
 import { getReleaseDirPath } from '.';
 import { IReleaseOverview } from '../types';
+import { getLargestSemanticVersion } from '../utils';
 import { getOrCreateJsonFile, saveJsonFile } from './file';
 
 const RELEASE_OVERVIEW_FILE_NAME = '.overview.json';

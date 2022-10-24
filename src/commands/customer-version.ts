@@ -1,10 +1,5 @@
-import {
-    ILogger,
-    askForOption,
-    askForOptionalString,
-} from '@empiriska/js-common-backend';
-
-import { ICommit } from '../types';
+import { ICommit, ILogger } from '../types';
+import { askForOption, askForOptionalString } from '../utils';
 
 import {
     assertGitBranchUpToDate,

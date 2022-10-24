@@ -1,13 +1,3 @@
-import { getFormattedNumberFromFraction } from '@empiriska/js-common';
-import {
-    fontDim,
-    fontGreen,
-    fontRed,
-    fontUnderscore,
-    fontYellow,
-    ILogger,
-} from '@empiriska/js-common-backend';
-
 import {
     CustomOption,
     CwdMover,
@@ -21,7 +11,16 @@ import {
     runYarnAudit,
 } from '../actions';
 
-import { IReleaseOverview } from '../types';
+import {
+    fontDim,
+    fontGreen,
+    fontRed,
+    fontUnderscore,
+    fontYellow,
+    getFormattedNumberFromFraction,
+} from '../utils';
+
+import { ILogger, IReleaseOverview } from '../types';
 
 interface IPackageUpdate {
     package: string;

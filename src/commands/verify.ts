@@ -1,5 +1,5 @@
-import { ILogger } from '@empiriska/js-common-backend';
 import { getCwdPath, getEmpiriskaPackageJson } from '../actions';
+import { ILogger } from '../types';
 
 export const runVerify = async (logger: ILogger) => {
     const packageJsonPath = getCwdPath('package.json');

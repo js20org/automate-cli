@@ -1,5 +1,3 @@
-import { askForOption, ILogger } from '@empiriska/js-common-backend';
-
 import {
     getCwdPath,
     getEmpiriskaPackageJson,
@@ -14,6 +12,9 @@ import {
     getAllEmpiriskaPackages,
     promptForNewMajor,
 } from '../actions';
+
+import { ILogger } from '../types';
+import { askForOption } from '../utils';
 
 export const runInstall = async (logger: ILogger) => {
     const releaseOverview = getReleaseOverview();
@@ -42,10 +43,8 @@ export const runInstall = async (logger: ILogger) => {
     const packageJsonPath = getCwdPath('package.json');
     const packageJsonContent = getEmpiriskaPackageJson(logger, packageJsonPath);
 
-    const {
-        type: dependencyType,
-        version: existingVersion,
-    } = getExistingPackageVersion(packageJsonContent, selectedPackage);
+    const { type: dependencyType, version: existingVersion } =
+        getExistingPackageVersion(packageJsonContent, selectedPackage);
 
     const hasExactVersion = existingVersion === latestVersion;
 

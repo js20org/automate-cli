@@ -1,11 +1,4 @@
 import {
-    ILogger,
-    fontBright,
-    fontDim,
-    fontGreen,
-} from '@empiriska/js-common-backend';
-
-import {
     assertGitBranchUpToDate,
     assertIsOnGitBranch,
     createGitCommit,
@@ -25,7 +18,8 @@ import {
     updateDependency,
 } from '../actions';
 
-import { IReleaseOverview, IReleaseOverviewPackage } from '../types';
+import { ILogger, IReleaseOverview, IReleaseOverviewPackage } from '../types';
+import { fontBright, fontDim, fontGreen } from '../utils';
 
 const COMMIT_PREFIX = '[dependency-upgrade] ';
 
@@ -37,10 +31,8 @@ const upgradeIfPackageExists = async (
     allPackages: IPackageInfo[]
 ) => {
     const { name: packageName, latestVersion } = releaseOverviewPackage;
-    const {
-        type: dependencyType,
-        version: existingVersion,
-    } = getExistingPackageVersion(packageJsonContent, packageName);
+    const { type: dependencyType, version: existingVersion } =
+        getExistingPackageVersion(packageJsonContent, packageName);
 
     const shouldUpgrade = existingVersion && existingVersion !== latestVersion;
 

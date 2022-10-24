@@ -1,15 +1,20 @@
 import path from 'path';
 
-import { ILogger } from '@empiriska/js-common-backend';
+import { ILogger } from '../types';
+
 import {
     CommandExecutorService,
     FilesystemService,
     runGenerator,
-} from '@empiriska/templates';
+} from 'rjsv-templates';
 
 export const runNew = async (_logger: ILogger) => {
     const workingDirectory = process.cwd();
-    const filesRootPath = path.resolve(__dirname, '..', 'node_modules/@empiriska/templates/files');
+    const filesRootPath = path.resolve(
+        __dirname,
+        '..',
+        'node_modules/@empiriska/templates/files'
+    );
 
     await runGenerator(
         filesRootPath,

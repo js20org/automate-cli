@@ -1,5 +1,3 @@
-import { ILogger, Executor } from '@empiriska/js-common-backend';
-
 import {
     assertReleaseExists,
     CustomOption,
@@ -12,6 +10,9 @@ import {
     PackageJsonScript,
     registerNewRelease,
 } from '.';
+
+import { ILogger } from '../types';
+import { Executor } from '../utils';
 
 import { getEmpiriskaPackageJson } from './package-json';
 

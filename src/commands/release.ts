@@ -1,12 +1,4 @@
 import {
-    ILogger,
-    askForOption,
-    askForOptionalString,
-} from '@empiriska/js-common-backend';
-
-import { ICommit } from '../types';
-
-import {
     assertGitBranchUpToDate,
     assertIsOnGitBranch,
     assertNoGitChanges,
@@ -23,6 +15,9 @@ import {
     updatePackageJsonVersion,
     VersionType,
 } from '../actions';
+
+import { ICommit, ILogger } from '../types';
+import { askForOption, askForOptionalString } from '../utils';
 
 const getInput = async (
     logger: ILogger,

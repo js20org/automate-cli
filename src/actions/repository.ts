@@ -1,6 +1,5 @@
-import { ILogger } from '@empiriska/js-common-backend';
-
 import { getAllOwnPackageJson } from '.';
+import { ILogger } from '../types';
 import { environment } from './env';
 import { CwdMover } from './process';
 

@@ -1,5 +1,3 @@
-import { askForOption, ILogger } from '@empiriska/js-common-backend';
-
 import {
     fetchGitTags,
     getReleasePackageJsonContent,
@@ -11,6 +9,9 @@ import {
     gitCheckoutBranch,
     getCwdPath,
 } from '../actions';
+
+import { ILogger } from '../types';
+import { askForOption } from '../utils';
 
 export const runReleaseLocal = async (logger: ILogger) => {
     const originalBranch = await getCurrentGitBranch(logger);
@@ -29,7 +30,7 @@ export const runReleaseLocal = async (logger: ILogger) => {
         'Select version to locally release:',
         versions
     );
-    
+
     await gitCheckoutTag(logger, option);
 
     const packageJsonFullPath = getCwdPath('package.json');

@@ -1,13 +1,4 @@
 import {
-    askForBoolean,
-    askForOption,
-    askForString,
-    fontDim,
-    fontUnderscore,
-    ILogger,
-} from '@empiriska/js-common-backend';
-
-import {
     addAllGitFiles,
     getCurrentGitBranch,
     getGitChanges,
@@ -19,15 +10,28 @@ import {
     pushEmpiriskaGitBranch,
 } from '../actions';
 
+import {
+    askForBoolean,
+    askForOption,
+    askForString,
+    fontDim,
+    fontUnderscore,
+} from '../utils';
+
+import { ILogger } from '../types';
+
 const pushToNewBranch = async (logger: ILogger, message: string) => {
     const branchName = await askForString('Enter branch name: feature/');
     const fullBranchName = `feature/${branchName}`;
 
     await gitCheckoutNewBranch(logger, fullBranchName);
     await performGitCommitAll(logger, message);
-    
+
     const pullRequestUrl = await pushEmpiriskaGitBranch(logger, fullBranchName);
-    const shouldCreatePullRequest = await askForBoolean('Create pull request?', true);
+    const shouldCreatePullRequest = await askForBoolean(
+        'Create pull request?',
+        true
+    );
 
     if (shouldCreatePullRequest) {
         await openBrowserWindow(logger, pullRequestUrl);

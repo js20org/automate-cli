@@ -1,15 +1,10 @@
-import {
-    ILogger,
-    fontBright,
-    fontDim,
-    fontGreen,
-    fontRed,
-} from '@empiriska/js-common-backend';
+import { ILogger } from '../types';
+import { fontBright, fontDim, fontGreen, fontRed } from '../utils';
 
 export enum CustomOption {
     TYPE,
     SHOULD_BE_RELEASED,
-    NO_TESTS
+    NO_TESTS,
 }
 
 const WRAPPER_KEY = 'empiriska';
@@ -126,7 +121,8 @@ const validateOptionValue = (
     key: string,
     value: any
 ) => {
-    const isValidByDefault = value === undefined && option.defaultValue !== undefined;
+    const isValidByDefault =
+        value === undefined && option.defaultValue !== undefined;
     const isValidByValue = value !== undefined && option.isValid(value);
 
     const isValid = isValidByDefault || isValidByValue;

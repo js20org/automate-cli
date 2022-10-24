@@ -1875,6 +1875,11 @@ resolve@^1.14.2, resolve@^1.9.0:
     path-parse "^1.0.7"
     supports-preserve-symlinks-flag "^1.0.0"
 
+rjsv-templates@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/rjsv-templates/-/rjsv-templates-1.0.0.tgz#7780b3e3cfc398446ee8ad7550c4a84270c1b92d"
+  integrity sha512-2Q+D+0D8yGjPXhaSyy/KtT01xGgm0Bz6borWSNFXVgZRU8Doq0vYgdAJ+PL99I/otJtO34/tBDC6WWhRA4DQ0Q==
+
 safe-buffer@^5.1.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
