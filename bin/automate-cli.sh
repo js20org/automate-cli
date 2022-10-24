@@ -1,2 +1,2 @@
 #!/bin/bash
-node $(dirname $0)/automate-cli.js "$@"
+node $(dirname $0)/emp-automate-cli.js "$@"

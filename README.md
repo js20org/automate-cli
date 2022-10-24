@@ -10,7 +10,7 @@ Build the tool with
 
 ### First time usage
 
-Make the `bin/automate-cli.sh` file executable, e.g. `chmod +x ./bin/automate-cli.sh`.
+Make the `bin/emp-automate-cli.sh` file executable, e.g. `chmod +x ./bin/emp-automate-cli.sh`.
 Make an alias for the file and add the correct environment variables:
 
 * `cd ~`
@@ -26,7 +26,7 @@ Example `.bash_profile`:
 # Defines the root directory. This will be used to save releases under root/.releases
 export EMPIRISKA_RELEASE_ROOT=/Users/robin/development
 # Where the bash script for the tool is located
-alias emp="~/development/automate-cli/bin/automate-cli.sh"
+alias emp="~/development/automate-cli/bin/emp-automate-cli.sh"
 ```
 
 ## Usage
