@@ -1,3 +1,5 @@
+import { ExecException } from 'child_process';
+
 export interface ICommit {
     id: string;
     message: string;
@@ -29,4 +31,31 @@ export interface IReleaseOverview {
 
 export interface IEnv {
     rootPath: string;
+}
+
+export interface ISemanticVersion {
+    major: number;
+    minor: number;
+    patch: number;
+}
+
+export interface IExecuteResult {
+    error: ExecException;
+    combinedOut: string;
+}
+
+export interface ICommand {
+    subcommand: string;
+    description: string;
+    run: (logger: ILogger) => Promise<any>;
+}
+
+export interface ILogger {
+    log: (message: any) => void;
+    logVerbose: (message: any) => void;
+}
+
+export abstract class Logger implements ILogger {
+    abstract log(message: any): void;
+    abstract logVerbose(message: any): void;
 }
