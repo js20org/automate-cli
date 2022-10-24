@@ -82,10 +82,22 @@ const assertHasScripts = (
         CustomOption.NO_TESTS
     );
 
-    const allScripts = Object.values(PackageJsonScript);
-    const requiredScripts = hasNoTestsIsEnabled
-        ? allScripts.filter((s) => s !== 'test')
-        : allScripts;
+    const shouldBeReleased = getOption(
+        logger,
+        packageJsonPath,
+        packageJsonContent,
+        CustomOption.SHOULD_BE_RELEASED
+    );
+
+    const requiredScripts = [];
+
+    if (!hasNoTestsIsEnabled) {
+        requiredScripts.push(PackageJsonScript.TEST);
+    }
+
+    if (shouldBeReleased) {
+        requiredScripts.push(PackageJsonScript.BUILD);
+    }
 
     for (const value of requiredScripts) {
         const hasScript = !!scripts[value];
@@ -105,10 +117,11 @@ const assertValidPackageJson = (
     packageJsonPath: string,
     packageJsonContent: Record<string, any>
 ) => {
-    const { name, version } = packageJsonContent;
+    const { name, version, license } = packageJsonContent;
 
     assertIsString(logger, packageJsonPath, 'name', name);
     assertIsString(logger, packageJsonPath, 'version', version);
+    assertIsString(logger, packageJsonPath, 'license', license);
     assertAllOptionsOk(logger, packageJsonPath, packageJsonContent);
     assertHasScripts(logger, packageJsonPath, packageJsonContent);
 };
