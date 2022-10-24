@@ -1,7 +1,7 @@
 {
     "name": "emp-automate-cli",
     "version": "1.0.0",
-    "private": true,
+    "private": false,
     "files": [
         "bin",
         "dist"

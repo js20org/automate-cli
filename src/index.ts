@@ -1,11 +1,4 @@
 import {
-    handleArgs,
-    handleError,
-    ICommand,
-    DefaultLogger,
-} from '@empiriska/js-common-backend';
-
-import {
     runCommit,
     runCustomerVersion,
     runInstall,
@@ -17,6 +10,10 @@ import {
     runVerify,
 } from './commands';
 
+import { DefaultLogger } from './logger';
+import { ICommand } from './types';
+import { handleArgs, handleError } from './utils';
+
 const commands: ICommand[] = [
     {
         subcommand: 'commit',
@@ -25,7 +22,8 @@ const commands: ICommand[] = [
     },
     {
         subcommand: 'customer-version',
-        description: 'Versions a package and lets you specify what to enter in the changelog.',
+        description:
+            'Versions a package and lets you specify what to enter in the changelog.',
         run: runCustomerVersion,
     },
     {
@@ -50,7 +48,8 @@ const commands: ICommand[] = [
     },
     {
         subcommand: 'status',
-        description: 'Checks the status of all the projects found in a recursive search.',
+        description:
+            'Checks the status of all the projects found in a recursive search.',
         run: runStatus,
     },
     {

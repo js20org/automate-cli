@@ -13,7 +13,7 @@ export const runNew = async (_logger: ILogger) => {
     const filesRootPath = path.resolve(
         __dirname,
         '..',
-        'node_modules/@empiriska/templates/files'
+        'node_modules/rjsv-templates/files'
     );
 
     await runGenerator(
