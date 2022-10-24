@@ -1,6 +1,7 @@
 {
     "name": "emp-automate-cli",
     "version": "1.0.0",
+    "license": "MIT",
     "private": false,
     "files": [
         "bin",
