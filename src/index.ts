@@ -7,7 +7,6 @@ import {
 
 import {
     runCommit,
-    runConfigUpgrade,
     runCustomerVersion,
     runInstall,
     runNew,
@@ -23,11 +22,6 @@ const commands: ICommand[] = [
         subcommand: 'commit',
         description: 'Assists in making a commit.',
         run: runCommit,
-    },
-    {
-        subcommand: 'config-upgrade',
-        description: 'Replaces all base configs with the latest version.',
-        run: runConfigUpgrade,
     },
     {
         subcommand: 'customer-version',
