@@ -7,7 +7,7 @@ export enum CustomOption {
     NO_TESTS,
 }
 
-const WRAPPER_KEY = 'empiriska';
+const WRAPPER_KEY = 'emp';
 
 const isValidBoolean = (value: any) => {
     return typeof value === 'boolean';

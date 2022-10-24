@@ -7,7 +7,7 @@
         "dist"
     ],
     "bin": {
-        "emp-automate-cli": "./bin/emp-automate-cli.js"
+        "emp": "./bin/emp-automate-cli.js"
     },
     "scripts": {
         "prebuild": "rm -r ./dist || true",

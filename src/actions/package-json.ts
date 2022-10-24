@@ -7,7 +7,6 @@ import {
     getRepositoryChangelog,
 } from '.';
 
-import { IChangelogEntry, ILogger } from '../types';
 import {
     askForBoolean,
     Executor,
@@ -22,6 +21,8 @@ import {
     CustomOption,
     getOption,
 } from './package-json-custom-options';
+
+import { IChangelogEntry, ILogger } from '../types';
 import { getCwdPath } from './path';
 
 export interface IPackageInfo {
@@ -30,8 +31,6 @@ export interface IPackageInfo {
     directoryPath: string;
     content: Record<string, any>;
 }
-
-const PACKAGE_NAME_PREFIX = '@empiriska/';
 
 export enum PackageJsonScript {
     BUILD = 'build',
@@ -65,26 +64,6 @@ const assertIsString = (
             logger,
             packageJsonPath,
             `Expected "${key}" in package.json to be a valid string.`
-        );
-    }
-};
-
-const isUsingEmpiriskaNamingConvention = (name: string) => {
-    return name.startsWith(PACKAGE_NAME_PREFIX);
-};
-
-const assertNamingConvention = (
-    logger: ILogger,
-    packageJsonPath: string,
-    name: string
-) => {
-    const isValid = isUsingEmpiriskaNamingConvention(name);
-
-    if (!isValid) {
-        reportError(
-            logger,
-            packageJsonPath,
-            `The package name should start with "${PACKAGE_NAME_PREFIX}".`
         );
     }
 };
@@ -130,7 +109,6 @@ const assertValidPackageJson = (
 
     assertIsString(logger, packageJsonPath, 'name', name);
     assertIsString(logger, packageJsonPath, 'version', version);
-    assertNamingConvention(logger, packageJsonPath, name);
     assertAllOptionsOk(logger, packageJsonPath, packageJsonContent);
     assertHasScripts(logger, packageJsonPath, packageJsonContent);
 };
@@ -159,28 +137,22 @@ export const getAllOwnPackageJson = async (
     logger: ILogger
 ): Promise<IPackageInfo[]> => {
     const matches = await getFilesRecursivelyWithoutNodeModules('package.json');
-    const result = matches.map((m) => {
+
+    return matches.map((m) => {
         const packageJsonFullPath = getCwdPath(m);
         const content =
             getJsonFileContent<Record<string, any>>(packageJsonFullPath);
 
         assertIsString(logger, m, 'name', content.name);
+        assertValidPackageJson(logger, packageJsonFullPath, content);
 
-        if (isUsingEmpiriskaNamingConvention(content.name)) {
-            assertValidPackageJson(logger, packageJsonFullPath, content);
-
-            return {
-                name: content.name,
-                path: m,
-                directoryPath: path.dirname(m),
-                content,
-            };
-        } else {
-            return null;
-        }
+        return {
+            name: content.name,
+            path: m,
+            directoryPath: path.dirname(m),
+            content,
+        };
     });
-
-    return result.filter((r) => !!r);
 };
 
 export const getExistingPackageVersion = (
