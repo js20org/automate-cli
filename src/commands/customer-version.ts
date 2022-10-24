@@ -9,10 +9,10 @@ import {
     createAndPushGitTag,
     fetchGitTags,
     getCwdPath,
-    getEmpiriskaPackageJson,
+    getVerifiedPackageJson,
     getNewVersionInfo,
     getOrCreateChangelog,
-    pushEmpiriskaGitBranch,
+    pushGitBranch,
     saveChangelog,
     updatePackageJsonVersion,
     VersionType,
@@ -96,7 +96,7 @@ const updateChangelog = (
 
 export const runCustomerVersion = async (logger: ILogger) => {
     const packageJsonFullPath = getCwdPath('package.json');
-    const packageJsonContent = await getEmpiriskaPackageJson(
+    const packageJsonContent = getVerifiedPackageJson(
         logger,
         packageJsonFullPath
     );
@@ -136,7 +136,7 @@ export const runCustomerVersion = async (logger: ILogger) => {
     );
 
     await commitVersion(logger, newVersionString);
-    await pushEmpiriskaGitBranch(logger, 'master');
+    await pushGitBranch(logger, 'master');
     await createAndPushGitTag(logger, newTag);
 
     logger.log(

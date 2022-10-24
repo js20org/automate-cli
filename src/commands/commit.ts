@@ -7,7 +7,7 @@ import {
     hasGitChanges,
     openBrowserWindow,
     performGitCommitAll,
-    pushEmpiriskaGitBranch,
+    pushGitBranch,
 } from '../actions';
 
 import {
@@ -27,7 +27,7 @@ const pushToNewBranch = async (logger: ILogger, message: string) => {
     await gitCheckoutNewBranch(logger, fullBranchName);
     await performGitCommitAll(logger, message);
 
-    const pullRequestUrl = await pushEmpiriskaGitBranch(logger, fullBranchName);
+    const pullRequestUrl = await pushGitBranch(logger, fullBranchName);
     const shouldCreatePullRequest = await askForBoolean(
         'Create pull request?',
         true
@@ -82,7 +82,7 @@ const interactiveCommit = async (logger: ILogger) => {
         );
     } else if (shouldPushToCurrent) {
         await performGitCommitAll(logger, message);
-        await pushEmpiriskaGitBranch(logger, currentBranch);
+        await pushGitBranch(logger, currentBranch);
 
         logger.log(
             `✅ The commit was created and pushed to "${currentBranch}".`

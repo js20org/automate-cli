@@ -3,7 +3,7 @@ import { ILogger } from '../types';
 import { environment } from './env';
 import { CwdMover } from './process';
 
-export const getAllEmpiriskaPackages = async (logger: ILogger) => {
+export const moveAndFindAllOwnPackageJson = async (logger: ILogger) => {
     const { rootPath } = environment;
 
     const cwdMover = new CwdMover();

@@ -24,7 +24,7 @@ Example `.bash_profile`:
 
 ```sh
 # Defines the root directory. This will be used to save releases under root/.releases
-export EMPIRISKA_RELEASE_ROOT=/Users/robin/development
+export EMP_RELEASE_ROOT=/Users/robin/development
 # Where the bash script for the tool is located
 alias emp="~/development/emp-automate-cli/bin/emp-automate-cli.sh"
 ```
@@ -36,7 +36,7 @@ In a package that you want to version and release. Add this option to your packa
 
 ```json
 {
-    "empiriska": {
+    "emp": {
         "release": true
     }
 }
@@ -52,8 +52,7 @@ If you locally want to release a specific version that has already been created 
 
 
 ### Install / Upgrade
-`emp install` should be used if you want to install a local empiriska package (you need to release it locally first).
-The install command is ran on a single project where you want the package to be installed.
+`emp install` should be used if you want to install a local emp package (you need to release it locally first). The install command is ran on a single project where you want the package to be installed.
 
 The `emp upgrade` command can be ran on a root level and will upgrade local dependencies of all packages found by recursive search. If there are no local changes and you are on the master branch it will also push a commit with the package update.
 

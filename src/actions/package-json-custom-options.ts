@@ -66,7 +66,7 @@ export const getOptionDescription = (
     const value = fontGreen(suggestedValue) || fontDim(option.valueDescription);
 
     return `
-"empiriska": {
+"emp": {
     "${option.packageJsonKey}": ${value}
 }
 `;
@@ -158,7 +158,7 @@ export const assertAllOptionsOk = (
             logger.log(packageJsonPath);
 
             throw new Error(
-                `No such empiriska option ${errorKey} exist. Available options are: ${availableOptions}`
+                `No such emp option ${errorKey} exist. Available options are: ${availableOptions}`
             );
         }
 

@@ -134,7 +134,7 @@ export const runPackageJsonScript = async (
     return await executor.execute(`yarn ${script}`);
 };
 
-export const getEmpiriskaPackageJson = (
+export const getVerifiedPackageJson = (
     logger: ILogger,
     packageJsonFullPath: string
 ) => {

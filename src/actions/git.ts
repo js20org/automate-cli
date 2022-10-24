@@ -165,26 +165,12 @@ const getPullRequestUrl = (remotePushLine: string, branchName: string) => {
     return `https://github.com/${origin}/compare/${branchName}?expand=1`;
 };
 
-export const pushEmpiriskaGitBranch = async (
-    logger: ILogger,
-    branchName: string
-) => {
+export const pushGitBranch = async (logger: ILogger, branchName: string) => {
     const executor = new Executor(logger);
     const { combinedOut } = await executor.execute('git remote -v');
 
     const lines = combinedOut.split('\n');
     const pushLine = lines.find((l) => l.includes('(push)'));
-
-    const isValid =
-        pushLine.startsWith('origin') &&
-        pushLine.includes('git@github.com') &&
-        pushLine.includes(':empiriska-ab/');
-
-    if (!isValid) {
-        throw new Error(
-            'This doesnt seem to be an Empiriska Github repo. Aborting as a security feature.'
-        );
-    }
 
     await executor.execute(`git push origin ${branchName}`);
 

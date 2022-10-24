@@ -3,9 +3,9 @@ import {
     assertIsOnGitBranch,
     createGitCommit,
     CwdMover,
-    getAllEmpiriskaPackages,
+    moveAndFindAllOwnPackageJson,
     getAllOwnPackageJson,
-    getEmpiriskaPackageJson,
+    getVerifiedPackageJson,
     getExistingPackageVersion,
     getReleaseOverview,
     getReleaseTargetFilePath,
@@ -13,7 +13,7 @@ import {
     hasNewMajorVersion,
     IPackageInfo,
     promptForNewMajor,
-    pushEmpiriskaGitBranch,
+    pushGitBranch,
     runYarnInstall,
     updateDependency,
 } from '../actions';
@@ -74,7 +74,7 @@ const commitChanges = async (logger: ILogger) => {
         const commitMessage = `${COMMIT_PREFIX}- Automatically upgraded package versions`;
 
         await createGitCommit(logger, commitFiles, commitMessage);
-        await pushEmpiriskaGitBranch(logger, 'master');
+        await pushGitBranch(logger, 'master');
 
         logger.log(fontDim('Commited upgrade!'));
     } catch (e) {
@@ -93,7 +93,7 @@ const upgradeLocal = async (
     packages: IPackageInfo[]
 ) => {
     const { packages: releaseOverviewPackages = [] } = releaseOverview;
-    const packageJsonContent = getEmpiriskaPackageJson(logger, packageJsonPath);
+    const packageJsonContent = getVerifiedPackageJson(logger, packageJsonPath);
 
     let didUpgradeAny = false;
 
@@ -122,7 +122,7 @@ const upgradeLocal = async (
 };
 
 export const runUpgrade = async (logger: ILogger) => {
-    const allPackages = await getAllEmpiriskaPackages(logger);
+    const allPackages = await moveAndFindAllOwnPackageJson(logger);
     const packagesInDirectory = await getAllOwnPackageJson(logger);
 
     const releaseOverview = getReleaseOverview();

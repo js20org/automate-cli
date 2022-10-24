@@ -14,7 +14,7 @@ import {
 import { ILogger } from '../types';
 import { Executor } from '../utils';
 
-import { getEmpiriskaPackageJson } from './package-json';
+import { getVerifiedPackageJson } from './package-json';
 
 const performRelease = async (
     logger: ILogger,
@@ -54,7 +54,7 @@ export const getReleasePackageJsonContent = async (
     logger: ILogger,
     packageJsonFullPath: string
 ) => {
-    const packageJsonContent = getEmpiriskaPackageJson(
+    const packageJsonContent = getVerifiedPackageJson(
         logger,
         packageJsonFullPath
     );

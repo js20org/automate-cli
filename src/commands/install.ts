@@ -1,6 +1,6 @@
 import {
     getCwdPath,
-    getEmpiriskaPackageJson,
+    getVerifiedPackageJson,
     getReleaseOverview,
     getReleaseTargetFilePath,
     hasFile,
@@ -9,7 +9,7 @@ import {
     DependencyType,
     updateDependency,
     hasNewMajorVersion,
-    getAllEmpiriskaPackages,
+    moveAndFindAllOwnPackageJson,
     promptForNewMajor,
 } from '../actions';
 
@@ -41,7 +41,7 @@ export const runInstall = async (logger: ILogger) => {
     }
 
     const packageJsonPath = getCwdPath('package.json');
-    const packageJsonContent = getEmpiriskaPackageJson(logger, packageJsonPath);
+    const packageJsonContent = getVerifiedPackageJson(logger, packageJsonPath);
 
     const { type: dependencyType, version: existingVersion } =
         getExistingPackageVersion(packageJsonContent, selectedPackage);
@@ -64,7 +64,7 @@ export const runInstall = async (logger: ILogger) => {
     const hasNewMajor = hasNewMajorVersion(latestVersion, existingVersion);
 
     if (hasNewMajor) {
-        const allPackages = await getAllEmpiriskaPackages(logger);
+        const allPackages = await moveAndFindAllOwnPackageJson(logger);
 
         await promptForNewMajor(
             logger,

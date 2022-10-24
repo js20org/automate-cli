@@ -9,7 +9,7 @@ import {
     getNewVersionInfo,
     getOrCreateChangelog,
     getReleasePackageJsonContent,
-    pushEmpiriskaGitBranch,
+    pushGitBranch,
     releasePackage,
     saveChangelog,
     updatePackageJsonVersion,
@@ -107,7 +107,7 @@ export const runRelease = async (logger: ILogger) => {
     );
 
     await commitVersion(logger, newVersionString);
-    await pushEmpiriskaGitBranch(logger, 'master');
+    await pushGitBranch(logger, 'master');
     await createAndPushGitTag(logger, newTag);
     await releasePackage(logger, packageJsonContent);
 
