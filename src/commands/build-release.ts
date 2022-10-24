@@ -13,7 +13,7 @@ import {
 import { ILogger } from '../types';
 import { askForOption } from '../utils';
 
-export const runReleaseLocal = async (logger: ILogger) => {
+export const runBuildRelease = async (logger: ILogger) => {
     const originalBranch = await getCurrentGitBranch(logger);
 
     await assertNoGitChanges(logger);

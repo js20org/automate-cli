@@ -26,11 +26,11 @@ In a package that you want to version and release. Add this option to your packa
 
 Now run `emp release` to create a new version and release it locally on your own computer.
 
-#### Release only
+### Build release
 
-If you locally want to release a specific version that has already been created then run:
+If you have an existing release of a package that is not installed in your repository you can build it and install it with this command.
 
-`emp release-local`
+`emp build-release`
 
 ### Install / Upgrade
 

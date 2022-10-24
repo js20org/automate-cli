@@ -4,7 +4,7 @@ import {
     runInstall,
     runNew,
     runRelease,
-    runReleaseLocal,
+    runBuildRelease,
     runStatus,
     runUpgrade,
     runVerify,
@@ -15,6 +15,12 @@ import { ICommand } from './types';
 import { handleArgs, handleError } from './utils';
 
 const commands: ICommand[] = [
+    {
+        subcommand: 'build-release',
+        description:
+            "If your registry doesn't have an existing version installed you can build it and add it to the registry with this command.",
+        run: runBuildRelease,
+    },
     {
         subcommand: 'commit',
         description: 'Assists in making a commit.',
@@ -40,11 +46,6 @@ const commands: ICommand[] = [
         subcommand: 'release',
         description: 'Versions and releases a package.',
         run: runRelease,
-    },
-    {
-        subcommand: 'release-local',
-        description: 'Locally releases an existing package version.',
-        run: runReleaseLocal,
     },
     {
         subcommand: 'status',
