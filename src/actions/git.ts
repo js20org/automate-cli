@@ -188,7 +188,7 @@ export const gitCheckoutTag = async (logger: ILogger, tag: string) => {
     const executor = new Executor(logger);
 
     await executor.execute(`git checkout ${tag}`);
-    executor.assertOutputIncludes(`checking out '${tag}'`);
+    executor.assertOutputIncludes(`switching to '${tag}'`);
     executor.assertOutputIncludes('HEAD is now at');
 };
 

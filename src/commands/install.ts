@@ -18,6 +18,12 @@ export const runInstall = async (
 ) => {
     const registry = await getSelectedRegistry(environment);
     const packageNames = await registry.getAllPackageNames();
+    
+    const hasPackages = packageNames.length > 0;
+
+    if (!hasPackages) {
+        return logger.log('No packages exist.');
+    }
 
     packageNames.sort((a, b) => a.localeCompare(b));
 

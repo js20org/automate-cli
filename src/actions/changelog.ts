@@ -16,6 +16,11 @@ export const getRepositoryChangelog = (directory: string) => {
     return getJsonFileContent<IChangelog>(target);
 };
 
+export const getCwdChangelog = (): IChangelog => {
+    const target = getCwdPath(CHANGELOG_NAME);
+    return getJsonFileContent<IChangelog>(target);
+};
+
 export const getOrCreateChangelog = (packageName: string): IChangelog => {
     const target = getCwdPath(CHANGELOG_NAME);
 

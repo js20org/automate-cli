@@ -1,4 +1,5 @@
 import {
+    runBuildRelease,
     runCommit,
     runInstall,
     runNew,
@@ -12,6 +13,11 @@ import { ICommand } from './types';
 import { handleArgs, handleError } from './utils';
 
 const commands: ICommand[] = [
+    {
+        subcommand: 'build-release',
+        description: 'Installs an existing release to the repository.',
+        run: runBuildRelease,
+    },
     {
         subcommand: 'commit',
         description: 'Assists in making a commit.',
