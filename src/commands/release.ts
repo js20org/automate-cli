@@ -72,7 +72,7 @@ export const runRelease = async (
     environment: IEnvironment
 ) => {
     const packageJsonFullPath = getCwdPath('package.json');
-    const packageJsonContent = await getReleasePackageJsonContent(
+    const packageJsonContent = getReleasePackageJsonContent(
         logger,
         packageJsonFullPath
     );

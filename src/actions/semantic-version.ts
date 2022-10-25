@@ -22,7 +22,7 @@ export enum VersionType {
     PATCH = 'patch',
 }
 
-export const getNextVersion = (
+const getNextVersion = (
     currentVersion: ISemanticVersion,
     type: VersionType
 ): ISemanticVersion => {

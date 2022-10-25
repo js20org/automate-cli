@@ -20,19 +20,6 @@ export interface IChangelog {
     versions: IChangelogEntry[];
 }
 
-export interface IReleaseOverviewPackage {
-    name: string;
-    latestVersion: string;
-}
-
-export interface IReleaseOverview {
-    packages?: IReleaseOverviewPackage[];
-}
-
-export interface IEnv {
-    rootPath: string;
-}
-
 export interface ISemanticVersion {
     major: number;
     minor: number;

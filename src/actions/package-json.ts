@@ -1,14 +1,5 @@
-import path from 'path';
-
 import {
-    getFilesRecursivelyWithoutNodeModules,
-    getRepositoryChangelog,
-} from '.';
-
-import {
-    askForBoolean,
     Executor,
-    fontDim,
     getExtractedSemanticVersion,
     getParsedSemanticVersion,
     sortObject,
@@ -18,25 +9,10 @@ import {
     assertAllOptionsOk,
     CustomOption,
     getOption,
-    isEmpProject,
 } from './package-json-custom-options';
 
 import { getJsonFileContent, saveJsonFile } from '../utils';
-import {
-    DependencyType,
-    IChangelogEntry,
-    ILogger,
-    IPackageVersion,
-    IRegistry,
-} from '../types';
-import { getCwdPath } from './path';
-
-export interface IPackageInfo {
-    name: string;
-    path: string;
-    directoryPath: string;
-    content: Record<string, any>;
-}
+import { DependencyType, ILogger } from '../types';
 
 export enum PackageJsonScript {
     BUILD = 'build',
@@ -133,35 +109,6 @@ export const getVerifiedPackageJson = (
     assertValidPackageJson(logger, packageJsonFullPath, packageJsonContent);
 
     return packageJsonContent;
-};
-
-export const getAllOwnPackageJson = async (
-    logger: ILogger
-): Promise<IPackageInfo[]> => {
-    const matches = await getFilesRecursivelyWithoutNodeModules('package.json');
-    const result = matches.map((m) => {
-        const packageJsonFullPath = getCwdPath(m);
-        const content =
-            getJsonFileContent<Record<string, any>>(packageJsonFullPath);
-
-        const isEmp = isEmpProject(content);
-
-        if (!isEmp) {
-            return null;
-        }
-
-        assertIsString(logger, m, 'name', content.name);
-        assertValidPackageJson(logger, packageJsonFullPath, content);
-
-        return {
-            name: content.name,
-            path: m,
-            directoryPath: path.dirname(m),
-            content,
-        };
-    });
-
-    return result.filter((i) => !!i);
 };
 
 export const getExistingPackageVersion = (

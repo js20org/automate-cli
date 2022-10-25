@@ -39,7 +39,7 @@ export const runBuildRelease = async (
     await runYarnInstall(logger);
 
     const packageJsonFullPath = getCwdPath('package.json');
-    const packageJsonContent = await getReleasePackageJsonContent(
+    const packageJsonContent = getReleasePackageJsonContent(
         logger,
         packageJsonFullPath
     );

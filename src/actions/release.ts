@@ -1,5 +1,6 @@
 import { CustomOption, getCwdPath, getOption, getOptionDescription } from '.';
 import { ILogger, IRegistry } from '../types';
+
 import {
     assertFileDoesNotExists,
     assertFileExists,
@@ -85,7 +86,7 @@ export const releasePackage = async (
     return hasReleaseAlready;
 };
 
-export const getReleasePackageJsonContent = async (
+export const getReleasePackageJsonContent = (
     logger: ILogger,
     packageJsonFullPath: string
 ) => {
