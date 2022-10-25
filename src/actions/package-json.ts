@@ -22,7 +22,13 @@ import {
 } from './package-json-custom-options';
 
 import { getJsonFileContent, saveJsonFile } from '../utils';
-import { DependencyType, IChangelogEntry, ILogger } from '../types';
+import {
+    DependencyType,
+    IChangelogEntry,
+    ILogger,
+    IPackageVersion,
+    IRegistry,
+} from '../types';
 import { getCwdPath } from './path';
 
 export interface IPackageInfo {
@@ -206,69 +212,4 @@ export const hasNewMajorVersion = (
     const latestMajor = getParsedSemanticVersion(latestVersion).major;
 
     return existingMajor !== null && latestMajor > existingMajor;
-};
-
-const getSummary = (
-    packageName: string,
-    newVersion: string,
-    existingVersion: string,
-    allEntries: IChangelogEntry[]
-) => {
-    const newMajor = getParsedSemanticVersion(newVersion).major;
-    const existingMajor = getParsedSemanticVersion(existingVersion).major;
-
-    const relevantVersions = allEntries.filter((v) => {
-        const major = getParsedSemanticVersion(v.version).major;
-        return major > existingMajor && major <= newMajor;
-    });
-
-    const breakingChanges = relevantVersions
-        .filter((v) => !!v.breakingChanges)
-        .map((v) => fontDim(`${v.version} - ${v.breakingChanges}`))
-        .join('\n');
-
-    return `
-${packageName} - ${newVersion}
-
-Breaking changes:
-${breakingChanges}
-`;
-};
-
-export const promptForNewMajor = async (
-    logger: ILogger,
-    allPackages: IPackageInfo[],
-    packageName: string,
-    newVersion: string,
-    existingVersion: string
-) => {
-    const packageInfo = allPackages.find((p) => p.name === packageName);
-
-    if (!packageInfo) {
-        throw new Error(`No such package: ${packageInfo}`);
-    }
-
-    const changelog = getRepositoryChangelog(packageInfo.directoryPath);
-    const entry = changelog.versions.find((v) => v.version === newVersion);
-
-    if (!entry) {
-        throw new Error(
-            'Unable to find changelog version. Is the package correctly installed?'
-        );
-    }
-
-    const summary = getSummary(
-        packageName,
-        newVersion,
-        existingVersion,
-        changelog.versions
-    );
-
-    logger.log(summary);
-
-    const shouldContinue = await askForBoolean('Do you want to continue?');
-
-    if (!shouldContinue) {
-        throw Error('Failed by user request.');
-    }
 };

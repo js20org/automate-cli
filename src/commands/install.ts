@@ -65,7 +65,10 @@ export const runInstall = async (
     )) as DependencyType;
 
     await replaceDependencyFile(registry, latestVersion, existingVersion);
-    const packageJsonTarget = getDependencyRelativeFilePath(latestVersion);
+
+    const packageJsonTarget = getDependencyRelativeFilePath(
+        latestVersion.fileName
+    );
 
     setPackageJsonDependency(
         packageJsonContent,

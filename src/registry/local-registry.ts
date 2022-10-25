@@ -7,6 +7,7 @@ import {
     createDirectoryIfNotExists,
     getLargestSemanticVersion,
     getOrCreateJsonFile,
+    getParsedSemanticVersion,
     hasFile,
     saveJsonFile,
 } from '../utils';
@@ -49,6 +50,11 @@ export class LocalRegistry implements IRegistry {
         createDirectoryIfNotExists(this.registryPath);
     }
 
+    async hasRelease(fileName: string) {
+        const fullPath = path.resolve(this.registryPath, fileName);
+        return hasFile(fullPath);
+    }
+
     async getAllPackageNames() {
         const packages = this.getPackages();
         const names = packages.map((p) => p.packageName);
@@ -65,9 +71,33 @@ export class LocalRegistry implements IRegistry {
         return getLargestSemanticVersion(allVersions);
     }
 
-    async hasRelease(fileName: string) {
-        const fullPath = path.resolve(this.registryPath, fileName);
-        return hasFile(fullPath);
+    async getBreakingChangesBetweenVersions(
+        packageName: string,
+        from: string,
+        to: string
+    ) {
+        const packages = this.getPackages();
+        const relevantVersions = packages.filter(
+            (p) => p.packageName === packageName
+        );
+
+        const result: IPackageVersion[] = [];
+
+        const { major: fromMajor } = getParsedSemanticVersion(from);
+        const { major: toMajor } = getParsedSemanticVersion(to);
+
+        for (const versionInfo of relevantVersions) {
+            const { version, breakingChangesDescription } = versionInfo;
+
+            const { major } = getParsedSemanticVersion(version);
+            const isBetween = major > fromMajor && major <= toMajor;
+
+            if (isBetween) {
+                result.push(versionInfo);
+            }
+        }
+
+        return result.filter((r) => !!r.breakingChangesDescription);
     }
 
     async release(

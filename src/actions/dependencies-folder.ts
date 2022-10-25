@@ -15,22 +15,19 @@ const DEPENDENCY_FOLDER = '.dependencies';
 
 const removeOldZip = (
     folderPath: string,
-    packageVersion: IPackageVersion,
+    packageName: string,
     existingVersion: string | null
 ) => {
-    const existingFileName = getReleaseFileName(
-        packageVersion.packageName,
-        existingVersion
-    );
+    const existingFileName = getReleaseFileName(packageName, existingVersion);
 
     const existingFilePath = path.resolve(folderPath, existingFileName);
     const hasExistingZip = hasFile(existingFilePath);
 
     if (hasExistingZip) {
-        console.log('Removing: ');
-        console.log(existingFilePath);
-
         safeDeleteFile(existingFilePath, '.tgz');
+        return existingFileName;
+    } else {
+        return null;
     }
 };
 
@@ -42,11 +39,18 @@ export const replaceDependencyFile = async (
     const folderPath = getCwdPath(DEPENDENCY_FOLDER);
     createDirectoryIfNotExists(folderPath);
 
-    if (existingVersion) {
-        removeOldZip(folderPath, packageVersion, existingVersion);
-    }
-
     const { packageName, version, fileName, fileHash } = packageVersion;
+    let removedZipPath: string = null;
+
+    if (existingVersion) {
+        const removedZipFileName = removeOldZip(
+            folderPath,
+            packageName,
+            existingVersion
+        );
+
+        removedZipPath = getDependencyRelativeFilePath(removedZipFileName);
+    }
 
     const targetFullPath = path.resolve(folderPath, fileName);
     const hasTargetAlready = hasFile(targetFullPath);
@@ -65,13 +69,16 @@ export const replaceDependencyFile = async (
             '[Important!] The hash for the downloaded zip release did not match the expected hash. Are you experiencing a man in the middle attack?'
         );
     }
+
+    const addedZipPath = getDependencyRelativeFilePath(fileName);
+
+    return {
+        removedZipPath,
+        addedZipPath,
+    };
 };
 
-export const getDependencyRelativeFilePath = (
-    packageVersion: IPackageVersion
-) => {
-    const { fileName } = packageVersion;
-
+export const getDependencyRelativeFilePath = (fileName: string) => {
     const folderPath = getCwdPath(DEPENDENCY_FOLDER);
     const absolutePath = path.resolve(folderPath, fileName);
     const relative = path.relative(process.cwd(), absolutePath);

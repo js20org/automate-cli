@@ -122,14 +122,14 @@ const validateOptionValue = (
     if (!isValid) {
         const formattedKey = fontBright(key);
         logger.log(packageJsonPath);
+        logger.log(fontRed('[package.json not configured]'));
 
-        console.log(fontRed('[package.json not configured]'));
-        console.log(
+        logger.log(
             fontBright(
                 'Your package was not configured with the right settings.'
             )
         );
-        console.log(
+        logger.log(
             fontDim(
                 'In your package.json you need to place the correct settings inside of "emp":\n{\n\t"emp": {...}\n}\n'
             )

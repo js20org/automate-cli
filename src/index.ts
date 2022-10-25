@@ -1,4 +1,11 @@
-import { runCommit, runInstall, runNew, runRelease } from './commands';
+import {
+    runCommit,
+    runInstall,
+    runNew,
+    runRelease,
+    runUpgrade,
+} from './commands';
+
 import { Environment } from './environment';
 import { DefaultLogger } from './logger';
 import { ICommand } from './types';
@@ -24,6 +31,11 @@ const commands: ICommand[] = [
         subcommand: 'release',
         description: 'Releases a new version of your package.',
         run: runRelease,
+    },
+    {
+        subcommand: 'upgrade',
+        description: 'Upgrades emp packages used in this project.',
+        run: runUpgrade,
     },
 ];
 

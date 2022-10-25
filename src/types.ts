@@ -63,9 +63,14 @@ export abstract class Logger implements ILogger {
 export interface IRegistry {
     initialize(): Promise<void>;
 
+    hasRelease(fileName: string): Promise<boolean>;
     getAllPackageNames(): Promise<string[]>;
     getPackageLatestVersion(packageName: string): Promise<IPackageVersion>;
-    hasRelease(fileName: string): Promise<boolean>;
+    getBreakingChangesBetweenVersions(
+        packageName: string,
+        from: string,
+        to: string
+    ): Promise<IPackageVersion[]>;
 
     release(
         zipFullPath: string,
