@@ -22,7 +22,7 @@ import {
 } from './package-json-custom-options';
 
 import { getJsonFileContent, saveJsonFile } from '../utils';
-import { IChangelogEntry, ILogger } from '../types';
+import { DependencyType, IChangelogEntry, ILogger } from '../types';
 import { getCwdPath } from './path';
 
 export interface IPackageInfo {
@@ -34,11 +34,6 @@ export interface IPackageInfo {
 
 export enum PackageJsonScript {
     BUILD = 'build',
-}
-
-export enum DependencyType {
-    DEPENDENCIES = 'dependencies',
-    DEV_DEPENDENCIES = 'devDependencies',
 }
 
 const reportError = (
@@ -184,7 +179,7 @@ export const getExistingPackageVersion = (
     return {};
 };
 
-export const updateDependency = (
+export const setPackageJsonDependency = (
     packageJsonContent: Record<string, any>,
     packageJsonPath: string,
     dependencyType: DependencyType,

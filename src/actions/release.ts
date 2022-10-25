@@ -21,7 +21,7 @@ const getConvertedPackageName = (name: string) => {
     return name.replace(new RegExp('/', 'g'), '-').replace('@', '');
 };
 
-const getReleaseFileName = (name: string, version: string) => {
+export const getReleaseFileName = (name: string, version: string) => {
     const convertedName = getConvertedPackageName(name);
     return getFileName(convertedName, version);
 };

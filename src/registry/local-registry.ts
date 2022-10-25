@@ -1,9 +1,11 @@
 import path from 'path';
 
-import { IRegistry, IRegistryConfigLocal } from '../types';
+import { IPackageVersion, IRegistry, IRegistryConfigLocal } from '../types';
+
 import {
     copyFile,
     createDirectoryIfNotExists,
+    getLargestSemanticVersion,
     getOrCreateJsonFile,
     hasFile,
     saveJsonFile,
@@ -11,14 +13,6 @@ import {
 
 const LOCAL_REGISTRY_FOLDER_NAME = '.emp-registry';
 const PACKAGES_OVERVIEW_FILE_NAME = '.packages.json';
-
-interface IPackageVersion {
-    packageName: string;
-    fileName: string;
-    version: string;
-    fileHash: string;
-    breakingChangesDescription: string;
-}
 
 interface IPackagesOverview {
     packages?: IPackageVersion[];
@@ -43,8 +37,32 @@ export class LocalRegistry implements IRegistry {
         );
     }
 
+    getPackages() {
+        const overview = getOrCreateJsonFile<IPackagesOverview>(
+            this.overviewPath
+        );
+
+        return overview.packages || [];
+    }
+
     async initialize() {
         createDirectoryIfNotExists(this.registryPath);
+    }
+
+    async getAllPackageNames() {
+        const packages = this.getPackages();
+        const names = packages.map((p) => p.packageName);
+
+        return [...new Set(names)];
+    }
+
+    async getPackageLatestVersion(packageName: string) {
+        const packages = this.getPackages();
+        const allVersions = packages.filter(
+            (p) => p.packageName === packageName
+        );
+
+        return getLargestSemanticVersion(allVersions);
     }
 
     async hasRelease(fileName: string) {
@@ -68,11 +86,7 @@ export class LocalRegistry implements IRegistry {
 
         copyFile(zipFullPath, targetFullPath);
 
-        const overview = getOrCreateJsonFile<IPackagesOverview>(
-            this.overviewPath
-        );
-
-        const packages = overview.packages || [];
+        const packages = this.getPackages();
         const hasVersion = packages.find(
             (v) => v.packageName === packageName && v.version === version
         );
@@ -97,5 +111,29 @@ export class LocalRegistry implements IRegistry {
         };
 
         saveJsonFile(this.overviewPath, nextOverview);
+    }
+
+    async downloadRelease(
+        packageName: string,
+        version: string,
+        targetFullPath: string
+    ) {
+        const packages = this.getPackages();
+        const packageInfo = packages.find(
+            (p) => p.packageName === packageName && p.version === version
+        );
+
+        if (!packageInfo) {
+            throw new Error(
+                `No such package in registry: ${packageName}@${version}`
+            );
+        }
+
+        const sourceFullPath = path.resolve(
+            this.registryPath,
+            packageInfo.fileName
+        );
+
+        copyFile(sourceFullPath, targetFullPath);
     }
 }

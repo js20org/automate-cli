@@ -1,4 +1,4 @@
-import { ISemanticVersion } from '../types';
+import { ISemanticVersion, IPackageVersion } from '../types';
 
 export const getExtractedSemanticVersion = (path: string) => {
     const match = path.match(/([0-9]+).([0-9]+).([0-9]+)/);
@@ -46,7 +46,6 @@ export const compareSemanticVersion = (
     b: ISemanticVersion
 ) => {
     const { major: aMajor, minor: aMinor, patch: aPatch } = a;
-
     const { major: bMajor, minor: bMinor, patch: bPatch } = b;
 
     if (aMajor !== bMajor) return aMajor - bMajor;
@@ -55,12 +54,29 @@ export const compareSemanticVersion = (
     return aPatch - bPatch;
 };
 
-export const getLargestSemanticVersion = (a: string, b: string) => {
+const isLargerSemanticVersion = (
+    version: IPackageVersion,
+    compare: IPackageVersion
+) => {
     const compareValue = compareSemanticVersion(
-        getParsedSemanticVersion(a),
-        getParsedSemanticVersion(b)
+        getParsedSemanticVersion(version.version),
+        getParsedSemanticVersion(compare.version)
     );
 
-    const isALarger = compareValue > 0;
-    return isALarger ? a : b;
+    return compareValue < 0;
+};
+
+export const getLargestSemanticVersion = (versions: IPackageVersion[]) => {
+    let largest: IPackageVersion = null;
+
+    for (const version of versions) {
+        const shouldReplace =
+            largest === null || isLargerSemanticVersion(largest, version);
+
+        if (shouldReplace) {
+            largest = version;
+        }
+    }
+
+    return largest;
 };

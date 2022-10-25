@@ -1,5 +1,6 @@
 export * from './browser';
 export * from './changelog';
+export * from './dependencies-folder';
 export * from './env';
 export * from './git';
 export * from './glob';
@@ -8,6 +9,7 @@ export * from './package-json-custom-options';
 export * from './package-json';
 export * from './path';
 export * from './process';
+export * from './registry';
 export * from './release';
 export * from './semantic-version';
 export * from './yarn';

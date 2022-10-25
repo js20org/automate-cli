@@ -9,6 +9,7 @@ import {
     getNewVersionInfo,
     getOrCreateChangelog,
     getReleasePackageJsonContent,
+    getSelectedRegistry,
     pushGitBranch,
     releasePackage,
     saveChangelog,
@@ -16,16 +17,8 @@ import {
     VersionType,
 } from '../actions';
 
-import { ICommit, IEnvironment, ILogger, IRegistry } from '../types';
+import { ICommit, IEnvironment, ILogger } from '../types';
 import { askForOption, askForOptionalString } from '../utils';
-
-const getSelectedRegistry = async (
-    registries: IRegistry[]
-): Promise<IRegistry> => {
-    //TODO, not implemented yet.
-
-    return null;
-};
 
 const getInput = async (
     logger: ILogger,
@@ -88,12 +81,7 @@ export const runRelease = async (
     await assertIsOnGitBranch(logger, 'master');
     await assertGitBranchUpToDate(logger);
 
-    const registries = environment.getRegistries();
-    const hasMultipleRegistries = registries.length > 1;
-
-    const registry = hasMultipleRegistries
-        ? await getSelectedRegistry(registries)
-        : registries[0];
+    const registry = await getSelectedRegistry(environment);
 
     await fetchGitTags(logger);
 

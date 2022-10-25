@@ -62,6 +62,9 @@ export abstract class Logger implements ILogger {
 
 export interface IRegistry {
     initialize(): Promise<void>;
+
+    getAllPackageNames(): Promise<string[]>;
+    getPackageLatestVersion(packageName: string): Promise<IPackageVersion>;
     hasRelease(fileName: string): Promise<boolean>;
 
     release(
@@ -71,6 +74,12 @@ export interface IRegistry {
         version: string,
         fileHash: string,
         breakingChangesDescription: string
+    ): Promise<void>;
+
+    downloadRelease(
+        packageName: string,
+        version: string,
+        targetFullPath: string
     ): Promise<void>;
 }
 
@@ -92,4 +101,17 @@ export type IRegistryConfig = IRegistryConfigLocal;
 
 export interface IConfig {
     registries: IRegistryConfig[];
+}
+
+export interface IPackageVersion {
+    packageName: string;
+    fileName: string;
+    version: string;
+    fileHash: string;
+    breakingChangesDescription: string;
+}
+
+export enum DependencyType {
+    DEPENDENCIES = 'dependencies',
+    DEV_DEPENDENCIES = 'devDependencies',
 }
