@@ -20,6 +20,7 @@ import {
     assertAllOptionsOk,
     CustomOption,
     getOption,
+    isEmpProject,
 } from './package-json-custom-options';
 
 import { IChangelogEntry, ILogger } from '../types';
@@ -150,11 +151,16 @@ export const getAllOwnPackageJson = async (
     logger: ILogger
 ): Promise<IPackageInfo[]> => {
     const matches = await getFilesRecursivelyWithoutNodeModules('package.json');
-
-    return matches.map((m) => {
+    const result = matches.map((m) => {
         const packageJsonFullPath = getCwdPath(m);
         const content =
             getJsonFileContent<Record<string, any>>(packageJsonFullPath);
+
+        const isEmp = isEmpProject(content);
+
+        if (!isEmp) {
+            return null;
+        }
 
         assertIsString(logger, m, 'name', content.name);
         assertValidPackageJson(logger, packageJsonFullPath, content);
@@ -166,6 +172,8 @@ export const getAllOwnPackageJson = async (
             content,
         };
     });
+
+    return result.filter((i) => !!i);
 };
 
 export const getExistingPackageVersion = (

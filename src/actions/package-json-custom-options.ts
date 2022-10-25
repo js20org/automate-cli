@@ -177,3 +177,7 @@ export const assertAllOptionsOk = (
         );
     }
 };
+
+export const isEmpProject = (packageJsonContent: Record<string, any>) => {
+    return !!packageJsonContent[WRAPPER_KEY];
+};
