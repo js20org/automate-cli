@@ -1,7 +1,6 @@
 export * from './browser';
 export * from './changelog';
 export * from './env';
-export * from './file';
 export * from './git';
 export * from './glob';
 export * from './jest';

@@ -1,8 +1,13 @@
 import path from 'path';
 
 import { IChangelog } from '../types';
-import { getJsonFileContent, getOrCreateJsonFile, saveJsonFile } from './file';
 import { getCwdPath } from './path';
+
+import {
+    getJsonFileContent,
+    getOrCreateJsonFile,
+    saveJsonFile,
+} from '../utils';
 
 export const CHANGELOG_NAME = 'changelog.json';
 
@@ -13,14 +18,16 @@ export const getRepositoryChangelog = (directory: string) => {
 
 export const getOrCreateChangelog = (packageName: string): IChangelog => {
     const target = getCwdPath(CHANGELOG_NAME);
-    
+
     const content = getOrCreateJsonFile<IChangelog>(target);
     const hasExistingChangelog = !!content.name;
 
-    return hasExistingChangelog ? content : {
-        name: packageName,
-        versions: []
-    };
+    return hasExistingChangelog
+        ? content
+        : {
+              name: packageName,
+              versions: [],
+          };
 };
 
 export const saveChangelog = (changelog: IChangelog) => {

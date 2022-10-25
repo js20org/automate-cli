@@ -4,6 +4,7 @@ export * from './error-handling';
 export * from './execute';
 export * from './format';
 export * from './font';
+export * from './fs';
 export * from './object';
 export * from './prompt';
 export * from './semantic-version';

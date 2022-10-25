@@ -1,5 +1,5 @@
-import { isValidDirectory } from './file';
 import { IEnv } from '../types';
+import { isValidDirectory } from '../utils';
 
 const getRootDirectory = () => {
     const rootDirectory = process.env.EMP_RELEASE_ROOT;

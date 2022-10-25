@@ -59,3 +59,10 @@ export abstract class Logger implements ILogger {
     abstract log(message: any): void;
     abstract logVerbose(message: any): void;
 }
+
+export interface IRegistry {}
+
+export interface IEnvironment {
+    initialize(logger: ILogger): Promise<void>;
+    getRegistries(): IRegistry[];
+}

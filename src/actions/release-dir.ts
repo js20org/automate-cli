@@ -5,7 +5,7 @@ import {
     moveFile,
     createDirectoryIfNotExists,
     hasFile,
-} from './file';
+} from '../utils';
 
 import { environment } from './env';
 import { getCwdPath } from './path';
