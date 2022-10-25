@@ -5,7 +5,10 @@ const readJsonFile = <T>(absolutePath: string) => {
     return <T>JSON.parse(content);
 };
 
-export const saveJsonFile = (absolutePath: string, content: Record<string, any>) => {
+export const saveJsonFile = (
+    absolutePath: string,
+    content: Record<string, any>
+) => {
     fs.writeFileSync(absolutePath, JSON.stringify(content, null, 4));
 };
 
@@ -50,6 +53,14 @@ export const assertFileExists = (absolutePath: string) => {
     }
 };
 
+export const assertFileDoesNotExists = (absolutePath: string) => {
+    const doesExist = fs.existsSync(absolutePath);
+
+    if (doesExist) {
+        throw new Error(`File exists: ${absolutePath}`);
+    }
+};
+
 export const moveFile = (
     sourcePath: string,
     targetPath: string,
@@ -63,7 +74,8 @@ export const moveFile = (
     }
 
     const hasCorrectEnding =
-        sanityCheckEnding.startsWith('.') && sourcePath.endsWith(sanityCheckEnding);
+        sanityCheckEnding.startsWith('.') &&
+        sourcePath.endsWith(sanityCheckEnding);
 
     if (hasCorrectEnding) {
         fs.unlinkSync(sourcePath);
@@ -71,6 +83,32 @@ export const moveFile = (
         throw new Error(
             `File ending sanity check failed: File "${sourcePath}, ending: "${sanityCheckEnding}"`
         );
+    }
+};
+
+export const safeDeleteFile = (
+    sourcePath: string,
+    sanityCheckEnding: string
+) => {
+    const hasCorrectEnding =
+        sanityCheckEnding.startsWith('.') &&
+        sourcePath.endsWith(sanityCheckEnding);
+
+    if (hasCorrectEnding) {
+        fs.unlinkSync(sourcePath);
+    } else {
+        throw new Error(
+            `File ending sanity check failed: File "${sourcePath}, ending: "${sanityCheckEnding}"`
+        );
+    }
+};
+
+export const copyFile = (sourcePath: string, targetPath: string) => {
+    fs.copyFileSync(sourcePath, targetPath);
+    const wasSuccessful = fs.existsSync(targetPath);
+
+    if (!wasSuccessful) {
+        throw new Error('Failed to copy file.');
     }
 };
 

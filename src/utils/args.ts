@@ -1,4 +1,4 @@
-import { ICommand, ILogger } from '../types';
+import { ICommand, IEnvironment, ILogger } from '../types';
 import { fontBright, fontGreen } from './font';
 
 const showHelp = (logger: ILogger, commands: ICommand[]) => {
@@ -9,7 +9,11 @@ const showHelp = (logger: ILogger, commands: ICommand[]) => {
     logger.log(`The following commands are available:\n\n${items}`);
 };
 
-export const handleArgs = async (logger: ILogger, commands: ICommand[]) => {
+export const handleArgs = async (
+    logger: ILogger,
+    environment: IEnvironment,
+    commands: ICommand[]
+) => {
     const args = process.argv.slice(2);
     const shouldShowHelp = args.includes('--help');
 
@@ -28,9 +32,11 @@ export const handleArgs = async (logger: ILogger, commands: ICommand[]) => {
     const command = commands.find((c) => args.includes(c.subcommand));
 
     if (command) {
-        await command.run(logger);
+        await command.run(logger, environment);
     } else {
-        const subcommands = commands.map((c) => fontGreen(c.subcommand)).join(', ');
+        const subcommands = commands
+            .map((c) => fontGreen(c.subcommand))
+            .join(', ');
         logger.log(
             `Invalid subcommand provided!\n\nPlease choose one of [${subcommands}]`
         );

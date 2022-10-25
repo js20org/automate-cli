@@ -11,22 +11,15 @@ import {
     saveJsonFile,
 } from '../utils';
 
-import { IEnvironment, ILogger } from '../types';
-
-enum RegistryType {
-    LOCAL = 'local',
-}
-
-interface ILocalRegistry {
-    type: RegistryType.LOCAL;
-    registryPath: string;
-}
-
-type IRegistry = ILocalRegistry;
-
-interface IConfig {
-    registries: IRegistry[];
-}
+import {
+    IConfig,
+    IEnvironment,
+    ILogger,
+    IRegistry,
+    IRegistryConfig,
+    RegistryType,
+} from '../types';
+import { LocalRegistry } from '../registry';
 
 const CONFIG_FILE_NAME = '.emp-config.json';
 
@@ -35,7 +28,7 @@ const getConfigPath = () => {
     return path.resolve(homeDir, CONFIG_FILE_NAME);
 };
 
-const setupLocal = async (logger: ILogger): Promise<IRegistry> => {
+const setupLocal = async (logger: ILogger): Promise<IRegistryConfig> => {
     const homeDir = os.homedir();
 
     logger.log(
@@ -109,12 +102,32 @@ const getConfigFile = async (logger: ILogger): Promise<IConfig> => {
     }
 };
 
+const getRegistries = (config: IConfig): IRegistry[] => {
+    const { registries } = config;
+
+    return registries.map((r) => {
+        const isLocal = r.type === RegistryType.LOCAL;
+
+        if (isLocal) {
+            return new LocalRegistry(r);
+        } else {
+            throw new Error('Unknown registry type.');
+        }
+    });
+};
+
 export class Environment implements IEnvironment {
     private registries: IRegistry[];
 
     async initialize(logger: ILogger) {
         const config = await getConfigFile(logger);
-        this.registries = config.registries;
+        const registries = getRegistries(config);
+
+        for (const registry of registries) {
+            await registry.initialize();
+        }
+
+        this.registries = registries;
     }
 
     getRegistries() {

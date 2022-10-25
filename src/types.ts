@@ -47,7 +47,7 @@ export interface IExecuteResult {
 export interface ICommand {
     subcommand: string;
     description: string;
-    run: (logger: ILogger) => Promise<any>;
+    run: (logger: ILogger, environment: IEnvironment) => Promise<any>;
 }
 
 export interface ILogger {
@@ -60,9 +60,36 @@ export abstract class Logger implements ILogger {
     abstract logVerbose(message: any): void;
 }
 
-export interface IRegistry {}
+export interface IRegistry {
+    initialize(): Promise<void>;
+    hasRelease(fileName: string): Promise<boolean>;
+
+    release(
+        zipFullPath: string,
+        targetFileName: string,
+        packageName: string,
+        version: string,
+        fileHash: string,
+        breakingChangesDescription: string
+    ): Promise<void>;
+}
 
 export interface IEnvironment {
     initialize(logger: ILogger): Promise<void>;
     getRegistries(): IRegistry[];
+}
+
+export enum RegistryType {
+    LOCAL = 'local',
+}
+
+export interface IRegistryConfigLocal {
+    type: RegistryType.LOCAL;
+    registryPath: string;
+}
+
+export type IRegistryConfig = IRegistryConfigLocal;
+
+export interface IConfig {
+    registries: IRegistryConfig[];
 }

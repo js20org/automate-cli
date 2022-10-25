@@ -34,7 +34,6 @@ export interface IPackageInfo {
 
 export enum PackageJsonScript {
     BUILD = 'build',
-    TEST = 'test',
 }
 
 export enum DependencyType {
@@ -75,13 +74,6 @@ const assertHasScripts = (
 ) => {
     const { scripts = {} } = packageJsonContent;
 
-    const hasNoTestsIsEnabled = getOption(
-        logger,
-        packageJsonPath,
-        packageJsonContent,
-        CustomOption.NO_TESTS
-    );
-
     const shouldBeReleased = getOption(
         logger,
         packageJsonPath,
@@ -90,10 +82,6 @@ const assertHasScripts = (
     );
 
     const requiredScripts = [];
-
-    if (!hasNoTestsIsEnabled) {
-        requiredScripts.push(PackageJsonScript.TEST);
-    }
 
     if (shouldBeReleased) {
         requiredScripts.push(PackageJsonScript.BUILD);

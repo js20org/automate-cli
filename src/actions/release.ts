@@ -1,50 +1,85 @@
+import { CustomOption, getCwdPath, getOption, getOptionDescription } from '.';
+import { ILogger, IRegistry } from '../types';
 import {
-    assertReleaseExists,
-    CustomOption,
-    getOption,
-    getOptionDescription,
-    hasRelease,
-    moveRelease,
-    prepareReleaseDir,
-    runPackageJsonScript,
+    assertFileDoesNotExists,
+    assertFileExists,
+    Executor,
+    getFileHash,
+    safeDeleteFile,
+} from '../utils';
+
+import {
+    getVerifiedPackageJson,
     PackageJsonScript,
-    registerNewRelease,
-} from '.';
+    runPackageJsonScript,
+} from './package-json';
 
-import { ILogger } from '../types';
-import { Executor } from '../utils';
+const getFileName = (name: string, version: string) =>
+    `${name}-v${version}.tgz`;
 
-import { getVerifiedPackageJson } from './package-json';
+const getConvertedPackageName = (name: string) => {
+    return name.replace(new RegExp('/', 'g'), '-').replace('@', '');
+};
+
+const getReleaseFileName = (name: string, version: string) => {
+    const convertedName = getConvertedPackageName(name);
+    return getFileName(convertedName, version);
+};
 
 const performRelease = async (
     logger: ILogger,
-    name: string,
-    version: string
+    registry: IRegistry,
+    packageName: string,
+    packageVersion: string,
+    breakingChangesDescription: string
 ) => {
     const executor = new Executor(logger);
+
+    const fileName = getReleaseFileName(packageName, packageVersion);
+    const fullPath = getCwdPath(fileName);
+
+    assertFileDoesNotExists(fullPath);
 
     await runPackageJsonScript(logger, PackageJsonScript.BUILD);
     await executor.execute('yarn pack');
 
-    assertReleaseExists(name, version);
-    moveRelease(name, version);
+    assertFileExists(fullPath);
 
-    registerNewRelease(name, version);
+    const fileHash = await getFileHash(fullPath);
+
+    await registry.release(
+        fullPath,
+        fileName,
+        packageName,
+        packageVersion,
+        fileHash,
+        breakingChangesDescription
+    );
+
+    safeDeleteFile(fullPath, '.tgz');
 };
 
 export const releasePackage = async (
     logger: ILogger,
-    packageJsonContent: Record<string, any>
+    registry: IRegistry,
+    packageJsonContent: Record<string, any>,
+    breakingChangesDescription: string
 ) => {
-    prepareReleaseDir();
-
     const { name, version } = packageJsonContent;
-    const hasReleaseAlready = hasRelease(name, version);
+
+    const fileName = getReleaseFileName(name, version);
+    const hasReleaseAlready = await registry.hasRelease(fileName);
 
     if (hasReleaseAlready) {
         logger.log(`${name}@${version} was already released.`);
     } else {
-        await performRelease(logger, name, version);
+        await performRelease(
+            logger,
+            registry,
+            name,
+            version,
+            breakingChangesDescription
+        );
     }
 
     return hasReleaseAlready;

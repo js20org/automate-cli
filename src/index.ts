@@ -1,4 +1,4 @@
-import { runCommit, runNew } from './commands';
+import { runCommit, runNew, runRelease } from './commands';
 import { Environment } from './environment';
 import { DefaultLogger } from './logger';
 import { ICommand } from './types';
@@ -12,8 +12,13 @@ const commands: ICommand[] = [
     },
     {
         subcommand: 'new',
-        description: 'Generates a new project.',
+        description: 'Generates a new project boilerplate.',
         run: runNew,
+    },
+    {
+        subcommand: 'release',
+        description: 'Releases a new version of your package.',
+        run: runRelease,
     },
 ];
 
@@ -25,7 +30,7 @@ const run = async () => {
         const environment = new Environment();
 
         await environment.initialize(logger);
-        await handleArgs(logger, commands);
+        await handleArgs(logger, environment, commands);
     } catch (e) {
         handleError(logger, e);
     }
