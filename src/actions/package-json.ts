@@ -1,9 +1,7 @@
 import path from 'path';
 
 import {
-    getJsonFileContent,
     getFilesRecursivelyWithoutNodeModules,
-    saveJsonFile,
     getRepositoryChangelog,
 } from '.';
 
@@ -23,6 +21,7 @@ import {
     isEmpProject,
 } from './package-json-custom-options';
 
+import { getJsonFileContent, saveJsonFile } from '../utils';
 import { IChangelogEntry, ILogger } from '../types';
 import { getCwdPath } from './path';
 

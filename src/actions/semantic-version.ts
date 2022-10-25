@@ -4,12 +4,12 @@ import {
     getGitCommitsSinceStart,
     getGitCommitsSinceTag,
     hasGitTag,
-    saveJsonFile,
 } from '.';
 
 import {
     getParsedSemanticVersion,
     getSerializedSemanticVersion,
+    saveJsonFile,
 } from '../utils';
 
 import { ICommit, ILogger, ISemanticVersion } from '../types';

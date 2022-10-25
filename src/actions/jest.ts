@@ -1,13 +1,8 @@
 import path from 'path';
 
-import {
-    getJsonFileContent,
-    IPackageInfo,
-    PackageJsonScript,
-    runPackageJsonScript,
-} from '.';
-
+import { IPackageInfo, PackageJsonScript, runPackageJsonScript } from '.';
 import { ILogger } from '../types';
+import { getJsonFileContent } from '../utils';
 
 interface ICoverageType {
     pct: number;
