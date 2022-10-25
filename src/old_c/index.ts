@@ -1,5 +1,4 @@
 export * from './build-release';
-export * from './commit';
 export * from './customer-version';
 export * from './install';
 export * from './new';
