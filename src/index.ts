@@ -1,4 +1,4 @@
-import { runCommit } from './commands';
+import { runCommit, runNew } from './commands';
 import { Environment } from './environment';
 import { DefaultLogger } from './logger';
 import { ICommand } from './types';
@@ -9,6 +9,11 @@ const commands: ICommand[] = [
         subcommand: 'commit',
         description: 'Assists in making a commit.',
         run: runCommit,
+    },
+    {
+        subcommand: 'new',
+        description: 'Generates a new project.',
+        run: runNew,
     },
 ];
 

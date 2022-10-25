@@ -1,7 +1,6 @@
 export * from './build-release';
 export * from './customer-version';
 export * from './install';
-export * from './new';
 export * from './release';
 export * from './status';
 export * from './upgrade';
