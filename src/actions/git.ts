@@ -194,9 +194,7 @@ export const gitCheckoutTag = async (logger: ILogger, tag: string) => {
 
 export const getCurrentGitBranch = async (logger: ILogger) => {
     const executor = new Executor(logger);
-    const { combinedOut } = await executor.execute(
-        'git rev-parse --abbrev-ref HEAD'
-    );
+    const { combinedOut } = await executor.execute('git branch --show-current');
 
     return combinedOut.trim();
 };
