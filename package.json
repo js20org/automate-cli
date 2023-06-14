@@ -16,8 +16,8 @@
         "dev": "yarn build && node ./bin/emp-automate-cli.js"
     },
     "dependencies": {
-        "prompts": "^2.4.0",
-        "rjsv-templates": "^1.0.0"
+        "glob": "10.2.7",
+        "prompts": "^2.4.0"
     },
     "devDependencies": {
         "@babel/core": "^7.15.0",

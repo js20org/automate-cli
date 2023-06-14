@@ -113,5 +113,9 @@ export const copyFile = (sourcePath: string, targetPath: string) => {
 };
 
 export const isValidDirectory = (absolutePath: string) => {
-    return fs.lstatSync(absolutePath).isDirectory();
+    try {
+        return fs.lstatSync(absolutePath).isDirectory();
+    } catch {
+        return false;
+    }
 };

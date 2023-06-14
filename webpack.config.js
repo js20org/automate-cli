@@ -17,7 +17,7 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx|ts|tsx)$/,
-                exclude: /node_modules\/(?!(rjsv-templates)\/).*/,
+                exclude: /node_modules\/.*/,
                 use: [
                     {
                         loader: 'babel-loader',

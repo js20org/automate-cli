@@ -4,10 +4,10 @@ import {
     runInstall,
     runNew,
     runRelease,
+    runTemplateSetup,
     runUpgrade,
 } from './commands';
 
-import { Environment } from './environment';
 import { DefaultLogger } from './logger';
 import { ICommand } from './types';
 import { handleArgs, handleError } from './utils';
@@ -30,13 +30,18 @@ const commands: ICommand[] = [
     },
     {
         subcommand: 'new',
-        description: 'Generates a new project boilerplate.',
+        description: 'Generates a new project template.',
         run: runNew,
     },
     {
         subcommand: 'release',
         description: 'Releases a new version of your package.',
         run: runRelease,
+    },
+    {
+        subcommand: 'template-setup',
+        description: 'Setup a new root directory for your project templates.',
+        run: runTemplateSetup,
     },
     {
         subcommand: 'upgrade',
@@ -50,10 +55,7 @@ const run = async () => {
     const logger = new DefaultLogger(shouldLogVerbose);
 
     try {
-        const environment = new Environment();
-
-        await environment.initialize(logger);
-        await handleArgs(logger, environment, commands);
+        await handleArgs(logger, commands);
     } catch (e) {
         handleError(logger, e);
     }
