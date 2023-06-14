@@ -21,7 +21,7 @@ export class Environment implements IEnvironment {
     async initialize(logger: ILogger) {
         this.config = await getConfigFile(logger);
         this.registries = getRegistries(this.config);
-        this.templates = getTemplates(this.config);
+        this.templates = getTemplates(logger, this.config);
 
         for (const registry of this.registries) {
             await registry.initialize();

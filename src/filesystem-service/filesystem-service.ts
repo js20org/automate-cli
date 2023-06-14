@@ -29,10 +29,12 @@ export class FilesystemService implements IFilesystemService {
 
     saveFile(relativePath: string, content: string) {
         const target = this.getTargetPath(relativePath);
+        const directoryName = path.dirname(target);
         const hasTarget = fs.existsSync(target);
         const shouldWrite = this.isAllowedToOverwrite || !hasTarget;
 
         if (shouldWrite) {
+            fs.mkdirSync(directoryName, { recursive: true });
             fs.writeFileSync(target, content);
         } else {
             this.logger.log(`Prevented write to existing file: ${target}`);

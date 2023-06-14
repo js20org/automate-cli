@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "name": "Launch via yarn",
+            "request": "launch",
+            "runtimeArgs": ["dev", "new", "--debug"],
+            "runtimeExecutable": "yarn",
+            "skipFiles": ["<node_internals>/**"],
+            "type": "node",
+            "console": "externalTerminal"
+        }
+    ]
+}

@@ -28,7 +28,7 @@ export const verifyTemplateSetup = (
     }
 };
 
-export const getTemplates = (config: IConfig): IResolvedTemplate[] => {
+export const getTemplates = (logger: ILogger, config: IConfig): IResolvedTemplate[] => {
     const { templateRoots } = config;
 
     return templateRoots
@@ -37,8 +37,8 @@ export const getTemplates = (config: IConfig): IResolvedTemplate[] => {
             const hasRootFile = hasFile(templatePath);
 
             if (!hasRootFile) {
-                console.log('');
-                console.log('Template root: ' + fontDim(r));
+                logger.log('');
+                logger.log('Template root: ' + fontDim(r));
 
                 throw new Error(
                     `Your template root folder must have a file named "${TEMPLATES_ROOT_FILE_NAME}". Please consider the README for more info."`

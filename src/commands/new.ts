@@ -101,6 +101,91 @@ const getConvertedFileName = (fullPath: string) => {
     }
 };
 
+const getReplacedIfStatements = (
+    content: string,
+    variables: ITemplateVariable[]
+) => {
+    const lines = content.split('\n');
+    const result = [];
+
+    let isAddingLines = true;
+
+    for (const line of lines) {
+        const isIfEnd = line.includes('-- endif --');
+
+        if (isIfEnd) {
+            isAddingLines = true;
+            continue;
+        }
+
+        let isIfLine = false;
+
+        for (const variable of variables) {
+            const { variable: key, value } = variable;
+            const isIfStart = line.includes(`-- if ${key} ===`);
+
+            if (!isIfStart) {
+                continue;
+            }
+
+            isIfLine = true;
+
+            const stringValue = value + '';
+            const isIfMatch = line.includes(
+                `-- if ${key} === ${stringValue} --`
+            );
+
+            if (isIfMatch) {
+                isAddingLines = true;
+            } else {
+                isAddingLines = false;
+            }
+
+            break;
+        }
+
+        const shouldAdd = isAddingLines && !isIfLine;
+
+        if (shouldAdd) {
+            result.push(line);
+        }
+    }
+
+    return result.join('\n');
+};
+
+const getReplacedVariables = (
+    content: string,
+    variables: ITemplateVariable[]
+) => {
+    let next = content;
+
+    for (const variable of variables) {
+        const { value, variable: key } = variable;
+
+        //Replace all but the string provided is not a regex
+        next = next.split(key).join(value + '');
+    }
+
+    return next;
+};
+
+const getValidJson = (content: string) => {
+    const isJsonStart = content.startsWith('{');
+    const isJsonEnd = content.endsWith('}') || content.endsWith('}\n');
+
+    const isJson = isJsonStart && isJsonEnd;
+
+    if (!isJson) {
+        return content;
+    }
+
+    //Inspired by: https://stackoverflow.com/a/34347475
+    const replaceRegex = /\,(?!\s*?[\{\[\"\'\w])/g;
+
+    return content.replace(replaceRegex, '');
+};
+
 const saveFiles = (
     filesystemService: IFilesystemService,
     allFiles: string[],
@@ -108,20 +193,27 @@ const saveFiles = (
     fullPath: string
 ) => {
     for (const file of allFiles) {
-        let content = fs.readFileSync(file).toString();
+        const content = fs.readFileSync(file).toString();
 
-        for (const variable of variables) {
-            const { value, variable: key } = variable;
+        const contentWithReplacedIfs = getReplacedIfStatements(
+            content,
+            variables
+        );
+        const contentWithReplacedVariables = getReplacedVariables(
+            contentWithReplacedIfs,
+            variables
+        );
 
-            //Replace all but the string provided is not a regex
-            content = content.split(key).join(value + '');
-        }
+        const contentWithValidJson = getValidJson(contentWithReplacedVariables);
 
         const localPath = path.relative(fullPath, file);
         const targetPath = path.resolve(process.cwd(), localPath);
-        const withConvertedFileName = getConvertedFileName(targetPath);
+        const pathWithConvertedFileName = getConvertedFileName(targetPath);
 
-        filesystemService.saveFile(withConvertedFileName, content);
+        filesystemService.saveFile(
+            pathWithConvertedFileName,
+            contentWithValidJson
+        );
     }
 };
 
