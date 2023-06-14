@@ -32,7 +32,7 @@ export const assertIsOnGitBranch = async (
     await executor.execute('git branch --no-color');
     executor.assertOutputIncludes(
         `\* ${branchName}\n`,
-        'Expected to be on the master branch'
+        `Expected to be on the "${branchName}" branch`
     );
 };
 
@@ -150,7 +150,7 @@ export const createGitCommit = async (
     executor.assertEmptyResponse();
 
     await executor.execute(commitCommand);
-    executor.assertOutputIncludes('[master ');
+    executor.assertOutputIncludes('[main ');
     executor.assertOutputIncludes(commitMessage);
 };
 

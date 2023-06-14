@@ -162,7 +162,7 @@ const performUpgrade = async (
 
 const commitChanges = async (logger: ILogger, upgradeItems: IUpgradeItem[]) => {
     try {
-        await assertIsOnGitBranch(logger, 'master');
+        await assertIsOnGitBranch(logger, 'main');
         await assertGitBranchUpToDate(logger);
 
         const upgradeFiles = upgradeItems
@@ -174,13 +174,13 @@ const commitChanges = async (logger: ILogger, upgradeItems: IUpgradeItem[]) => {
         const commitMessage = `${COMMIT_PREFIX}- Automatically upgraded package versions`;
 
         await createGitCommit(logger, commitFiles, commitMessage);
-        await pushGitBranch(logger, 'master');
+        await pushGitBranch(logger, 'main');
 
         logger.log(fontDim('Commited upgrade!'));
     } catch (e) {
         logger.log(
             fontDim(
-                'No commit made because repo was not on the master branch or outdated'
+                'No commit made because repo was not on the main branch or outdated'
             )
         );
     }

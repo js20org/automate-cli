@@ -37,10 +37,10 @@ const pushToNewBranch = async (logger: ILogger, message: string) => {
         await openBrowserWindow(logger, pullRequestUrl);
     }
 
-    const shouldReturn = await askForBoolean('Return to master?', true);
+    const shouldReturn = await askForBoolean('Return to main?', true);
 
     if (shouldReturn) {
-        await gitCheckoutBranch(logger, 'master');
+        await gitCheckoutBranch(logger, 'main');
     }
 
     return fullBranchName;

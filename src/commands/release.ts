@@ -78,7 +78,7 @@ export const runRelease = async (
     );
 
     await assertNoGitChanges(logger);
-    await assertIsOnGitBranch(logger, 'master');
+    await assertIsOnGitBranch(logger, 'main');
     await assertGitBranchUpToDate(logger);
 
     const registry = await getSelectedRegistry(environment);
@@ -113,7 +113,7 @@ export const runRelease = async (
     );
 
     await commitVersion(logger, newVersionString);
-    await pushGitBranch(logger, 'master');
+    await pushGitBranch(logger, 'main');
     await createAndPushGitTag(logger, newTag);
     await releasePackage(
         logger,
