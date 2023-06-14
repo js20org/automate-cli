@@ -89,10 +89,10 @@ const getFilesInDirectory = async (
 
 const getConvertedFileName = (fullPath: string) => {
     const fileName = path.basename(fullPath);
-    const isHiddenFile = fileName.startsWith('_');
+    const shouldConvert = fileName.startsWith('_');
 
-    if (isHiddenFile) {
-        const convertedFileName = fileName.replace('_', '.');
+    if (shouldConvert) {
+        const convertedFileName = fileName.replace(/^_/, '');
         const directory = path.dirname(fullPath);
 
         return path.resolve(directory, convertedFileName);

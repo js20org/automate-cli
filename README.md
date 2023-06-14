@@ -51,4 +51,173 @@ The templates.json file should be an array of ITemplate objects. The specificati
 
 Here is an example of a template:
 
+```json
+[
+    {
+        "name": "backend",
+        "questions": [
+            {
+                "type": "string",
+                "question": "What is your project name?",
+                "variable": "$projectName$"
+            },
+            {
+                "type": "boolean",
+                "question": "Do you want user authentication?",
+                "variable": "$shouldUseAuth$"
+            }
+        ],
+        "files": [
+            {
+                "path": "./backend/general"
+            },
+            {
+                "path": "./backend/auth",
+                "includeIf": "$shouldUseAuth$"
+            }
+        ]
+    }
+]
+```
 
+File structure:
+
+```
+templates
+    backend
+        auth
+            src
+                > auth.js
+        general
+            src
+                > index.js
+            > _.env
+            > _.gitignore
+            > _tsconfig.json
+            > package.json
+            > webpack-dev.config.js
+    > templates.json
+```
+
+If the user answers yes to auth, the final file structure for the new project will be:
+
+```
+    src
+        > auth.js
+        > index.js
+    > .env
+    > .gitignore
+    > package.json
+    > tsconfig.json
+    > webpack-dev.config.js
+```
+
+#### User questions
+
+You can ask any questions to the user while installing the template to make different decisions. We can choose whether to ask for a string or yes/no boolean. We define the questions, and define what the variable name should be. You can choose any format of variable names, e.g. `$projectName$` or `###projectName` or whatever format you want.
+
+#### Different files depending on answers
+
+As you can see in the example above we can add multiple paths in the "files" array. The first one with only a path will always be included and all the files in that directory will be added to your new project. The second one with "includeIf" will only add the included files if the answer to the auth question `$shouldUseAuth$` is true.
+
+#### Replacing values in files
+
+You can use any variable inside the files of your template, and the system will automatically replace all the variables with the value the user chose. So for instance we ask for the name of the package, and in the package.json file we can then reference the variable like this:
+
+```json
+{
+    "name": "$projectName$"
+}
+```
+
+If the user answers "test" the package.json will automatically be:
+
+```json
+{
+    "name": "test"
+}
+```
+
+#### Hidden files
+
+If you add an underscore at the start of a file name it will always be removed. So `_.gitignore` will become `.gitignore`, `_tsconfig.json` will become `tsconfig.json` etc. This is to allow you to prevent these files from having any effect on your templates, for instance if you push the template to git and want to prevent the gitignore behaviour.
+
+### If statements
+
+Inside files you can at any point do if statements based on answers. You can start an if statement with the following format:
+
+`-- if [variable] === [value] --`
+
+The `[variable]` should reference one of your variables, and the `[value]` should be `true` or `false`. You then end the if statement with the following:
+
+`-- endif --`
+
+You can put the start and end of if statement anywhere on a line in your file, so you can put it in a comment for JS files, which will prevent errors in the file:
+
+```ts
+const otherLogic = () => {};
+
+//-- if $shouldUseAuth$ === true --
+
+const login = () => {
+    //Auth logic
+};
+
+//-- endif --
+
+const moreLogic = () => {};
+```
+
+But it can also work for JSON files:
+
+```json
+{
+    "somethingElse": true,
+    "-- if $shouldUseAuth$ === true --": "",
+    "addThisPart": "Auth!!!",
+    "-- endif --": ""
+}
+```
+
+The lines containing the if start or if end will always be removed, so the results will be like this if shoulldUseAuth is true:
+
+The JS file:
+
+```ts
+const otherLogic = () => {};
+
+const login = () => {
+    //Auth logic
+};
+
+const moreLogic = () => {};
+```
+
+And the JSON:
+
+```json
+{
+    "somethingElse": true,
+    "addThisPart": "Auth!!!"
+}
+```
+
+If the answer was false, the result will be:
+
+The JS file:
+
+```ts
+const otherLogic = () => {};
+
+const moreLogic = () => {};
+```
+
+And the JSON:
+
+```json
+{
+    "somethingElse": true
+}
+```
+
+**Note:** For JSON files any trailing commas will automatically be removed. So we don't get a broken JSON file `"somethingElse": true,` with a trailing comma because the system has automatically fixed that error for us.
