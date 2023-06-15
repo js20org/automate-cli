@@ -225,3 +225,46 @@ And the JSON:
 ```
 
 **Note:** For JSON files any trailing commas will automatically be removed. So we don't get a broken JSON file `"somethingElse": true,` with a trailing comma because the system has automatically fixed that error for us.
+
+#### Conditional questions
+
+You can use the `askIf` field for a question to only ask for user input if another question was answered true, like this:
+
+```json
+{
+    //... rest of templates.json
+    "questions": [
+        {
+            "type": "boolean",
+            "question": "Do you want user authentication?",
+            "variable": "$shouldUseAuth$"
+        },
+        {
+            "type": "boolean",
+            "question": "Do you want an admin role?",
+            "askIf": "$shouldUseAuth$",
+            "variable": "$shouldUseAdmin$"
+        }
+    ]
+}
+```
+
+If the user answers no on the first question the second question will never be asked. All occurences of `$shouldUseAdmin$` in your project will be replaced with an empty string `''`.
+
+#### Generated variables
+
+You can use `generated` to provide variables that are automatically generated for the user.
+
+```json
+{
+    //... rest of templates.json
+    "generated": [
+        {
+            "type": "cryptoSecret",
+            "variable": "$devJwtSecret$"
+        }
+    ]
+}
+```
+
+In the scenario if you place `$devJwtSecret$` in your template file it will get an automatically generated crypto secret. Please consider `src/types.ts` and `GeneratedVariableType` for all types of generated variables that are available.

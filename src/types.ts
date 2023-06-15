@@ -84,6 +84,7 @@ export interface ITemplateQuestion {
     type: TemplateQuestionType;
     question: string;
     variable: string;
+    askIf?: string;
 }
 
 export interface ITemplateFiles {
@@ -91,9 +92,19 @@ export interface ITemplateFiles {
     includeIf: string;
 }
 
+export enum GeneratedVariableType {
+    CRYPTO_SECRET = 'cryptoSecret',
+}
+
+export interface IGeneratedVariable {
+    type: GeneratedVariableType;
+    variable: string;
+}
+
 export interface ITemplate {
     name: string;
     questions: ITemplateQuestion[];
+    generated: IGeneratedVariable[];
     files: ITemplateFiles[];
 }
 

@@ -4,8 +4,10 @@ import fs from 'fs';
 import { glob } from 'glob';
 
 import {
+    GeneratedVariableType,
     IEnvironment,
     IFilesystemService,
+    IGeneratedVariable,
     ILogger,
     IResolvedTemplate,
     ITemplateFiles,
@@ -24,7 +26,13 @@ import {
     MockCommandExecutorService,
 } from '../command-executor-service';
 
-import { askForBoolean, askForOption, askForString, fontDim } from '../utils';
+import {
+    askForBoolean,
+    askForOption,
+    askForString,
+    fontDim,
+    getGeneratedSecret,
+} from '../utils';
 import { verifyTemplateSetup } from '../actions';
 
 const askSingleQuestion = async (
@@ -39,12 +47,30 @@ const askSingleQuestion = async (
     }
 };
 
+const shouldAskQuestion = (askIf: string, variables: ITemplateVariable[]) => {
+    if (!askIf) {
+        return true;
+    }
+
+    const variable = variables.find((v) => v.variable === askIf);
+    return variable?.value === true;
+};
+
 const askQuestions = async (questions: ITemplateQuestion[]) => {
     const variables: ITemplateVariable[] = [];
 
     for (const templateQuestion of questions) {
-        const { question: userQuestion, type, variable } = templateQuestion;
-        const value = await askSingleQuestion(userQuestion, type);
+        const {
+            question: userQuestion,
+            type,
+            variable,
+            askIf,
+        } = templateQuestion;
+
+        const shouldAsk = shouldAskQuestion(askIf, variables);
+        const value = shouldAsk
+            ? await askSingleQuestion(userQuestion, type)
+            : '';
 
         const next: ITemplateVariable = {
             value,
@@ -163,7 +189,35 @@ const getReplacedVariables = (
     for (const variable of variables) {
         const { value, variable: key } = variable;
 
-        //Replace all but the string provided is not a regex
+        //Replace-all, but the string provided is not a regex
+        next = next.split(key).join(value + '');
+    }
+
+    return next;
+};
+
+const getGeneratedValue = (type: GeneratedVariableType) => {
+    switch (type) {
+        case GeneratedVariableType.CRYPTO_SECRET:
+            return getGeneratedSecret();
+        default:
+            throw new Error(
+                'No implementation for generated variable type: ' + type
+            );
+    }
+};
+
+const getGeneratedVariables = (
+    content: string,
+    generated: IGeneratedVariable[]
+) => {
+    let next = content;
+
+    for (const variable of generated) {
+        const { type, variable: key } = variable;
+        const value = getGeneratedValue(type);
+
+        //Replace-all, but the string provided is not a regex
         next = next.split(key).join(value + '');
     }
 
@@ -190,6 +244,7 @@ const saveFiles = (
     filesystemService: IFilesystemService,
     allFiles: string[],
     variables: ITemplateVariable[],
+    generated: IGeneratedVariable[],
     fullPath: string
 ) => {
     for (const file of allFiles) {
@@ -199,12 +254,20 @@ const saveFiles = (
             content,
             variables
         );
+
         const contentWithReplacedVariables = getReplacedVariables(
             contentWithReplacedIfs,
             variables
         );
 
-        const contentWithValidJson = getValidJson(contentWithReplacedVariables);
+        const contentWithGeneratedVariables = getGeneratedVariables(
+            contentWithReplacedVariables,
+            generated
+        );
+
+        const contentWithValidJson = getValidJson(
+            contentWithGeneratedVariables
+        );
 
         const localPath = path.relative(fullPath, file);
         const targetPath = path.resolve(process.cwd(), localPath);
@@ -220,6 +283,7 @@ const saveFiles = (
 const copyFiles = async (
     filesystemService: IFilesystemService,
     variables: ITemplateVariable[],
+    generated: IGeneratedVariable[],
     rootPath: string,
     files: ITemplateFiles[]
 ) => {
@@ -245,7 +309,7 @@ const copyFiles = async (
             );
         }
 
-        saveFiles(filesystemService, allFiles, variables, fullPath);
+        saveFiles(filesystemService, allFiles, variables, generated, fullPath);
     }
 
     return [...new Set(allFiles)];
@@ -255,10 +319,10 @@ const generateProject = async (
     filesystemService: IFilesystemService,
     selectedTemplate: IResolvedTemplate
 ) => {
-    const { questions, files, rootPath } = selectedTemplate;
+    const { questions, generated, files, rootPath } = selectedTemplate;
 
     const variables = await askQuestions(questions);
-    await copyFiles(filesystemService, variables, rootPath, files);
+    await copyFiles(filesystemService, variables, generated, rootPath, files);
 };
 
 export const runNew = async (logger: ILogger, environment: IEnvironment) => {

@@ -1,5 +1,6 @@
 export * from './args';
 export * from './assert';
+export * from './crypto';
 export * from './error-handling';
 export * from './execute';
 export * from './format';
