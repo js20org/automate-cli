@@ -57,6 +57,10 @@ const shouldAskQuestion = (askIf: string, variables: ITemplateVariable[]) => {
 };
 
 const askQuestions = async (questions: ITemplateQuestion[]) => {
+    if (!questions) {
+        return [];
+    }
+
     const variables: ITemplateVariable[] = [];
 
     for (const templateQuestion of questions) {
@@ -211,6 +215,10 @@ const getGeneratedVariables = (
     content: string,
     generated: IGeneratedVariable[]
 ) => {
+    if (!generated) {
+        return content;
+    }
+
     let next = content;
 
     for (const variable of generated) {
