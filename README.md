@@ -12,7 +12,7 @@ Update with:
 
 ## Deploy
 
-If you have access to this npm account run `yarn build` and `npm publish`
+If you have access to this npm account, manually bump version and run `yarn build` and `npm publish`
 
 ## Commands
 
