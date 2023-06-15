@@ -31,8 +31,5 @@
         "webpack": "^5.17.0",
         "webpack-cli": "^4.4.0"
     },
-    "emp": {
-        "type": "other",
-        "release": true
-    }
+    "empRelease": true
 }

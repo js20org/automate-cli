@@ -2,18 +2,11 @@ import { ILogger } from '../types';
 import { fontBright, fontDim, fontGreen, fontRed } from '../utils';
 
 export enum CustomOption {
-    TYPE,
     SHOULD_BE_RELEASED,
 }
 
-const WRAPPER_KEY = 'emp';
-
 const isValidBoolean = (value: any) => {
     return typeof value === 'boolean';
-};
-
-const isValidNonEmptyString = (value: any) => {
-    return value && typeof value === 'string' && value.length > 0;
 };
 
 interface IOption {
@@ -24,16 +17,10 @@ interface IOption {
     isValid: (value: any) => any;
 }
 
-const options: IOption[] = [
-    {
-        type: CustomOption.TYPE,
-        packageJsonKey: 'type',
-        valueDescription: 'String',
-        isValid: isValidNonEmptyString,
-    },
+const OPTIONS: IOption[] = [
     {
         type: CustomOption.SHOULD_BE_RELEASED,
-        packageJsonKey: 'release',
+        packageJsonKey: 'empRelease',
         valueDescription: 'Boolean',
         defaultValue: false,
         isValid: isValidBoolean,
@@ -41,7 +28,7 @@ const options: IOption[] = [
 ];
 
 const getCustomOption = (customOption: CustomOption) => {
-    const option = options.find((o) => o.type === customOption);
+    const option = OPTIONS.find((o) => o.type === customOption);
 
     if (!option) {
         throw new Error(`No implementation for option: ${customOption}`);
@@ -58,9 +45,7 @@ export const getOptionDescription = (
     const value = fontGreen(suggestedValue) || fontDim(option.valueDescription);
 
     return `
-"emp": {
-    "${option.packageJsonKey}": ${value}
-}
+"${option.packageJsonKey}": ${value}
 `;
 };
 
@@ -99,9 +84,7 @@ export const getOption = (
     customOption: CustomOption
 ) => {
     const option = getCustomOption(customOption);
-
-    const wrapper = packageJsonContent[WRAPPER_KEY] || {};
-    const value = wrapper[option.packageJsonKey];
+    const value = packageJsonContent[option.packageJsonKey];
 
     return getValidatedOptionValue(logger, packageJsonPath, option, value);
 };
@@ -146,31 +129,8 @@ export const assertAllOptionsOk = (
     packageJsonPath: string,
     packageJsonContent: Record<string, any>
 ) => {
-    const availableOptions = fontDim(
-        options.map((o) => o.packageJsonKey).join(', ')
-    );
-
-    const wrapper = packageJsonContent[WRAPPER_KEY] || {};
-    const usedKeys = Object.keys(wrapper);
-
-    for (const key of usedKeys) {
-        const value = wrapper[key];
-        const option = options.find((o) => o.packageJsonKey === key);
-
-        if (!option) {
-            const errorKey = fontRed(key);
-            logger.log(packageJsonPath);
-
-            throw new Error(
-                `No such emp option ${errorKey} exist. Available options are: ${availableOptions}`
-            );
-        }
-
-        validateOptionValue(logger, packageJsonPath, option, key, value);
-    }
-
-    for (const option of options) {
-        const value = wrapper[option.packageJsonKey];
+    for (const option of OPTIONS) {
+        const value = packageJsonContent[option.packageJsonKey];
 
         validateOptionValue(
             logger,
@@ -180,8 +140,4 @@ export const assertAllOptionsOk = (
             value
         );
     }
-};
-
-export const isEmpProject = (packageJsonContent: Record<string, any>) => {
-    return !!packageJsonContent[WRAPPER_KEY];
 };
