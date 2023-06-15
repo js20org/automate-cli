@@ -13,8 +13,7 @@
     "scripts": {
         "prebuild": "rm -r ./dist || true",
         "build": "NODE_ENV=production webpack --config ./webpack.config.js",
-        "dev": "webpack --config webpack-dev.config.js && node ./dist/dev.js",
-        "deploy": "yarn build && npm publish"
+        "dev": "webpack --config webpack-dev.config.js && node ./dist/dev.js"
     },
     "dependencies": {
         "glob": "10.2.7",

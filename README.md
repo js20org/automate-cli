@@ -10,6 +10,10 @@ Install with:
 Update with:
 `yarn global upgrade emp-automate-cli`
 
+## Deploy
+
+If you have access to this npm account run `yarn build` and `npm publish`
+
 ## Commands
 
 Add flag `--help` to list all commands.
