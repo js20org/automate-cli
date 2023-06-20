@@ -364,5 +364,10 @@ export const runNew = async (logger: ILogger, environment: IEnvironment) => {
     );
 
     await generateProject(filesystemService, selectedTemplate);
-    await executorService.execute('yarn install');
+
+    try {
+        await executorService.execute('yarn install');
+    } catch {
+        throw new Error('Yarn install failed. Please run it manually to see more error info.');
+    }
 };
