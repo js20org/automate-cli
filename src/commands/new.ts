@@ -114,6 +114,7 @@ const getFilesInDirectory = async (
 
     return await glob(fullPath + '/**/*', {
         nodir: true,
+        dot: true,
     });
 };
 
@@ -368,6 +369,8 @@ export const runNew = async (logger: ILogger, environment: IEnvironment) => {
     try {
         await executorService.execute('yarn install');
     } catch {
-        throw new Error('Yarn install failed. Please run it manually to see more error info.');
+        throw new Error(
+            'Yarn install failed. Please run it manually to see more error info.'
+        );
     }
 };
