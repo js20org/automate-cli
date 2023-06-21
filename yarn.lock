@@ -1694,6 +1694,13 @@ jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
+js-common-node@^1.0.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/js-common-node/-/js-common-node-1.1.1.tgz#dfc2cd0065c5b2b5c6621bb55aa9990c349eb039"
+  integrity sha512-BBpYFTpNqMEwNYIXO0wzc90rgtrCyoc35Jm1HK/yJtI9lnsTnP6d9UzFqVRI9ZlZVdMyqXTN8gzWv4VF+MuAwg==
+  dependencies:
+    prompts "^2.4.0"
+
 js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"

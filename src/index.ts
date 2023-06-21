@@ -1,3 +1,5 @@
+import { DefaultLogger, handleError } from 'js-common-node';
+
 import {
     runBuildRelease,
     runCommit,
@@ -8,9 +10,8 @@ import {
     runUpgrade,
 } from './commands';
 
-import { DefaultLogger } from './logger';
 import { ICommand } from './types';
-import { handleArgs, handleError } from './utils';
+import { handleArgs } from './utils';
 
 const commands: ICommand[] = [
     {

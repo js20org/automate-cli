@@ -1,3 +1,5 @@
+import { askForOption, ILogger } from 'js-common-node';
+
 import {
     assertNoGitChanges,
     fetchGitTags,
@@ -13,8 +15,7 @@ import {
     runYarnInstall,
 } from '../actions';
 
-import { IEnvironment, ILogger } from '../types';
-import { askForOption } from '../utils';
+import { IEnvironment } from '../types';
 
 export const runBuildRelease = async (
     logger: ILogger,

@@ -1,5 +1,4 @@
-import { ILogger } from '../types';
-import { Executor } from '../utils';
+import { ILogger, Executor } from 'js-common-node';
 
 export const runYarnInstall = async (logger: ILogger) => {
     const executor = new Executor(logger);

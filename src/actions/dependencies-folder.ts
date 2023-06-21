@@ -5,7 +5,7 @@ import {
     getFileHash,
     hasFile,
     safeDeleteFile,
-} from '../utils';
+} from 'js-common-node';
 
 import { IPackageVersion, IRegistry } from '../types';
 import { getCwdPath } from './path';

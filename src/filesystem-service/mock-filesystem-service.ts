@@ -1,5 +1,5 @@
-import { IFilesystemService, ILogger } from '../types';
-import { fontDim } from '../utils';
+import { fontDim, ILogger } from 'js-common-node';
+import { IFilesystemService } from '../types';
 
 export class MockFilesystemService implements IFilesystemService {
     private logger: ILogger;

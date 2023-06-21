@@ -1,8 +1,14 @@
 import {
     Executor,
+    sortObject,
+    getJsonFileContent,
+    saveJsonFile,
+    ILogger,
+} from 'js-common-node';
+
+import {
     getExtractedSemanticVersion,
     getParsedSemanticVersion,
-    sortObject,
 } from '../utils';
 
 import {
@@ -11,8 +17,7 @@ import {
     getOption,
 } from './package-json-custom-options';
 
-import { getJsonFileContent, saveJsonFile } from '../utils';
-import { DependencyType, ILogger } from '../types';
+import { DependencyType } from '../types';
 
 export enum PackageJsonScript {
     BUILD = 'build',

@@ -1,18 +1,19 @@
+import { saveJsonFile, ILogger } from 'js-common-node';
+
 import {
-    CHANGELOG_NAME,
     createGitCommit,
     getGitCommitsSinceStart,
     getGitCommitsSinceTag,
     hasGitTag,
-} from '.';
+} from './git';
 
 import {
     getParsedSemanticVersion,
     getSerializedSemanticVersion,
-    saveJsonFile,
 } from '../utils';
 
-import { ICommit, ILogger, ISemanticVersion } from '../types';
+import { ICommit, ISemanticVersion } from '../types';
+import { CHANGELOG_NAME } from './changelog';
 
 const COMMIT_PREFIX = '[version] ';
 

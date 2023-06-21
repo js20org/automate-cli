@@ -1,3 +1,5 @@
+import { askForOption, ILogger } from 'js-common-node';
+
 import {
     getCwdPath,
     getDependencyRelativeFilePath,
@@ -9,8 +11,7 @@ import {
     setPackageJsonDependency,
 } from '../actions';
 
-import { DependencyType, IEnvironment, ILogger } from '../types';
-import { askForOption } from '../utils';
+import { DependencyType, IEnvironment } from '../types';
 
 export const runInstall = async (
     logger: ILogger,
@@ -18,7 +19,7 @@ export const runInstall = async (
 ) => {
     const registry = await getSelectedRegistry(environment);
     const packageNames = await registry.getAllPackageNames();
-    
+
     const hasPackages = packageNames.length > 0;
 
     if (!hasPackages) {

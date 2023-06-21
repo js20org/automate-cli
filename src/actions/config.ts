@@ -2,15 +2,7 @@ import path from 'path';
 import os from 'os';
 
 import {
-    IConfig,
     ILogger,
-    IRegistry,
-    IRegistryConfig,
-    ITemplate,
-    RegistryType,
-} from '../types';
-
-import {
     askForOption,
     askForOptionalString,
     fontBright,
@@ -18,7 +10,9 @@ import {
     hasFile,
     isValidDirectory,
     saveJsonFile,
-} from '../utils';
+} from 'js-common-node';
+
+import { IConfig, IRegistry, IRegistryConfig, RegistryType } from '../types';
 
 import { LocalRegistry } from '../registry';
 

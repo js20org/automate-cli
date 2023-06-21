@@ -1,4 +1,13 @@
 import {
+    askForBoolean,
+    askForOption,
+    askForString,
+    fontDim,
+    fontUnderscore,
+    ILogger,
+} from 'js-common-node';
+
+import {
     addAllGitFiles,
     getCurrentGitBranch,
     getGitChanges,
@@ -9,16 +18,6 @@ import {
     performGitCommitAll,
     pushGitBranch,
 } from '../actions';
-
-import {
-    askForBoolean,
-    askForOption,
-    askForString,
-    fontDim,
-    fontUnderscore,
-} from '../utils';
-
-import { ILogger } from '../types';
 
 const pushToNewBranch = async (logger: ILogger, message: string) => {
     const branchName = await askForString('Enter branch name: feature/');

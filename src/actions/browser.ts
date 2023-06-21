@@ -1,5 +1,4 @@
-import { ILogger } from '../types';
-import { Executor } from '../utils';
+import { Executor, ILogger } from 'js-common-node';
 
 export const openBrowserWindow = async (logger: ILogger, url: string) => {
     const executor = new Executor(logger);

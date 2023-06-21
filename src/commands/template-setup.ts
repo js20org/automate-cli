@@ -1,6 +1,13 @@
-import { IEnvironment, ILogger } from '../types';
+import {
+    askForString,
+    fontBright,
+    fontDim,
+    isValidDirectory,
+    ILogger,
+} from 'js-common-node';
+
+import { IEnvironment } from '../types';
 import { addTemplateRoot, getCwdPath } from '../actions';
-import { askForString, fontBright, fontDim, isValidDirectory } from '../utils';
 
 export const runTemplateSetup = async (
     logger: ILogger,

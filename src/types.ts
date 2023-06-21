@@ -1,4 +1,4 @@
-import { ExecException } from 'child_process';
+import { ILogger } from 'js-common-node';
 
 export interface ICommit {
     id: string;
@@ -26,25 +26,10 @@ export interface ISemanticVersion {
     patch: number;
 }
 
-export interface IExecuteResult {
-    error: ExecException;
-    combinedOut: string;
-}
-
 export interface ICommand {
     subcommand: string;
     description: string;
     run: (logger: ILogger, environment: IEnvironment) => Promise<any>;
-}
-
-export interface ILogger {
-    log: (message: any) => void;
-    logVerbose: (message: any) => void;
-}
-
-export abstract class Logger implements ILogger {
-    abstract log(message: any): void;
-    abstract logVerbose(message: any): void;
 }
 
 export interface IRegistry {
@@ -158,8 +143,4 @@ export enum DependencyType {
 export interface IFilesystemService {
     createDirectory: (relativePath: string) => void;
     saveFile: (relativePath: string, content: string) => void;
-}
-
-export interface ICommandExecutor {
-    execute: (command: string) => Promise<any>;
 }

@@ -1,5 +1,10 @@
-import { ILogger } from '../types';
-import { fontBright, fontDim, fontGreen, fontRed } from '../utils';
+import {
+    ILogger,
+    fontBright,
+    fontDim,
+    fontGreen,
+    fontRed,
+} from 'js-common-node';
 
 export enum CustomOption {
     SHOULD_BE_RELEASED,

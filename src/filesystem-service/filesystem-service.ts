@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { ILogger } from 'js-common-node';
 
-import { IFilesystemService, ILogger } from '../types';
+import { IFilesystemService } from '../types';
 
 export class FilesystemService implements IFilesystemService {
     private logger: ILogger;

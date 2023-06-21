@@ -1,6 +1,7 @@
+import { ILogger, fontBright, fontGreen } from 'js-common-node';
+
 import { Environment } from '../environment';
-import { ICommand, IEnvironment, ILogger } from '../types';
-import { fontBright, fontGreen } from './font';
+import { ICommand } from '../types';
 
 const showHelp = (logger: ILogger, commands: ICommand[]) => {
     const items = commands

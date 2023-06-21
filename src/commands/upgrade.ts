@@ -1,3 +1,5 @@
+import { askForBoolean, fontDim, fontGreen, ILogger } from 'js-common-node';
+
 import {
     assertGitBranchUpToDate,
     assertIsOnGitBranch,
@@ -15,8 +17,7 @@ import {
     setPackageJsonDependency,
 } from '../actions';
 
-import { IEnvironment, ILogger, IPackageVersion, IRegistry } from '../types';
-import { askForBoolean, fontDim, fontGreen } from '../utils';
+import { IEnvironment, IPackageVersion, IRegistry } from '../types';
 
 const COMMIT_PREFIX = '[dependency-upgrade] ';
 

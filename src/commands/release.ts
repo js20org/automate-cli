@@ -1,3 +1,5 @@
+import { askForOption, askForOptionalString, ILogger } from 'js-common-node';
+
 import {
     assertGitBranchUpToDate,
     assertIsOnGitBranch,
@@ -17,8 +19,7 @@ import {
     VersionType,
 } from '../actions';
 
-import { ICommit, IEnvironment, ILogger } from '../types';
-import { askForOption, askForOptionalString } from '../utils';
+import { ICommit, IEnvironment } from '../types';
 
 const getInput = async (
     logger: ILogger,

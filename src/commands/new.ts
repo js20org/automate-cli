@@ -4,11 +4,19 @@ import fs from 'fs';
 import { glob } from 'glob';
 
 import {
+    askForBoolean,
+    askForOption,
+    askForString,
+    Executor,
+    fontDim,
+    ILogger,
+} from 'js-common-node';
+
+import {
     GeneratedVariableType,
     IEnvironment,
     IFilesystemService,
     IGeneratedVariable,
-    ILogger,
     IResolvedTemplate,
     ITemplateFiles,
     ITemplateQuestion,
@@ -21,18 +29,7 @@ import {
     MockFilesystemService,
 } from '../filesystem-service';
 
-import {
-    CommandExecutorService,
-    MockCommandExecutorService,
-} from '../command-executor-service';
-
-import {
-    askForBoolean,
-    askForOption,
-    askForString,
-    fontDim,
-    getGeneratedSecret,
-} from '../utils';
+import { getGeneratedSecret } from '../utils';
 import { verifyTemplateSetup } from '../actions';
 
 const askSingleQuestion = async (
@@ -343,9 +340,7 @@ export const runNew = async (logger: ILogger, environment: IEnvironment) => {
         ? new MockFilesystemService(logger)
         : new FilesystemService(logger, false);
 
-    const executorService = isDebugMode
-        ? new MockCommandExecutorService(logger)
-        : new CommandExecutorService(logger);
+    const executorService = new Executor(logger, isDebugMode);
 
     if (isDebugMode) {
         logger.log(fontDim('Running with mock filesystem & executor calls...'));

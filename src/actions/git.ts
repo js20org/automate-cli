@@ -1,5 +1,5 @@
-import { ICommit, ILogger } from '../types';
-import { assertIsString, Executor } from '../utils';
+import { assertIsString, Executor, ILogger } from 'js-common-node';
+import { ICommit } from '../types';
 
 export const getGitChanges = async (logger: ILogger) => {
     const executor = new Executor(logger);

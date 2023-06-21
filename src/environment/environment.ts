@@ -1,11 +1,6 @@
-import {
-    IConfig,
-    IEnvironment,
-    ILogger,
-    IRegistry,
-    IResolvedTemplate,
-} from '../types';
+import { ILogger } from 'js-common-node';
 
+import { IConfig, IEnvironment, IRegistry, IResolvedTemplate } from '../types';
 import { getConfigFile, getRegistries, getTemplates } from '../actions';
 
 export class Environment implements IEnvironment {

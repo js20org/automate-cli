@@ -1,13 +1,7 @@
 import path from 'path';
+import { ILogger, fontDim, getJsonFileContent, hasFile } from 'js-common-node';
 
-import {
-    IConfig,
-    IEnvironment,
-    ILogger,
-    IResolvedTemplate,
-    ITemplate,
-} from '../types';
-import { fontDim, getJsonFileContent, hasFile } from '../utils';
+import { IConfig, IEnvironment, IResolvedTemplate, ITemplate } from '../types';
 
 const TEMPLATES_ROOT_FILE_NAME = 'templates.json';
 
@@ -28,7 +22,10 @@ export const verifyTemplateSetup = (
     }
 };
 
-export const getTemplates = (logger: ILogger, config: IConfig): IResolvedTemplate[] => {
+export const getTemplates = (
+    logger: ILogger,
+    config: IConfig
+): IResolvedTemplate[] => {
     const { templateRoots } = config;
 
     return templateRoots

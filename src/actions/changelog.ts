@@ -1,13 +1,11 @@
-import path from 'path';
-
-import { IChangelog } from '../types';
-import { getCwdPath } from './path';
-
 import {
     getJsonFileContent,
     getOrCreateJsonFile,
     saveJsonFile,
-} from '../utils';
+} from 'js-common-node';
+
+import { IChangelog } from '../types';
+import { getCwdPath } from './path';
 
 export const CHANGELOG_NAME = 'changelog.json';
 
