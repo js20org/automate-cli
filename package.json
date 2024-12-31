@@ -1,5 +1,5 @@
 {
-    "name": "emp-automate-cli",
+    "name": "@js20/automate-cli",
     "version": "1.4.4",
     "license": "MIT",
     "private": false,
