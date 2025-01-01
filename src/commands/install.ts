@@ -7,7 +7,7 @@ import {
     getSelectedRegistry,
     getVerifiedPackageJson,
     replaceDependencyFile,
-    runYarnInstall,
+    runNpmInstall,
     setPackageJsonDependency,
 } from '../actions';
 
@@ -85,7 +85,7 @@ export const runInstall = async (
         packageJsonTarget
     );
 
-    await runYarnInstall(logger);
+    await runNpmInstall(logger);
 
     logger.log(
         `✅ Added version "${version}" of package "${selectedPackageName}".`

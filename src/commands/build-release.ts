@@ -12,7 +12,7 @@ import {
     gitCheckoutBranch,
     gitCheckoutTag,
     releasePackage,
-    runYarnInstall,
+    runNpmInstall,
 } from '../actions';
 
 import { IEnvironment } from '../types';
@@ -37,7 +37,7 @@ export const runBuildRelease = async (
     const option = await askForOption('Select version to build:', versions);
 
     await gitCheckoutTag(logger, option);
-    await runYarnInstall(logger);
+    await runNpmInstall(logger);
 
     const packageJsonFullPath = getCwdPath('package.json');
     const packageJsonContent = getReleasePackageJsonContent(

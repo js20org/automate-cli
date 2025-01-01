@@ -13,7 +13,7 @@ import {
     hasNewMajorVersion,
     pushGitBranch,
     replaceDependencyFile,
-    runYarnInstall,
+    runNpmInstall,
     setPackageJsonDependency,
 } from '../actions';
 
@@ -215,7 +215,7 @@ export const runUpgrade = async (
         return logger.log('Nothing to upgrade 👍');
     }
 
-    await runYarnInstall(logger);
+    await runNpmInstall(logger);
 
     if (hasLocalChanges) {
         logger.log(fontDim('No commit made because repo has local changes'));
