@@ -1,11 +1,11 @@
 # README
 
-This is a developer CLI designed to automate common problems for js20 apps.
-This CLI solves the following problems:
+This is a developer CLI designed to automate common developer tasks.
+It solves the following problems:
 
-* [Commit helper] Automates git add, commit, branch checkout, PR creation
-* [Private package repository] Allows you to publish packages in a local repository. Useful for you private proprietary repositories that you do not want to share with 3rd party providers. Automatic semantic release and changelog is built in out of the box.
-* [Project templates] Allows you to create project templates and then generate project boilerplates for new projects
+1. **[Commit helper]** Automates git add, commit, branch checkout, PR creation
+2. **[Private package repository]** Allows you to publish packages in a local repository. Useful for you private proprietary repositories that you do not want to share with 3rd party providers. Automatic semantic release and changelog is built in out of the box.
+3. **[Project templates]** Allows you to create project templates and then generate project boilerplates for new projects
 
 ## Install, update
 
@@ -21,10 +21,10 @@ You should now have a global command `emp` that you can run like:
 ## High level commands
 Use `emp --help` to list all commands. Add flag `--debug` to debug things like writing files with the `new` command.
 
-## Commit helper
+## 1. Commit helper
 Run `emp commit`, the CLI will ask relevant questions and perform actions, while logging exactly what it is doing behind the scenes.
 
-## Private package repository
+## 2. Private package repository
 
 When standing in your code repository, you can run `emp release` and the guide will help you to create a new release. Under the hood it will run `yarn build` and `yarn pack` for you, and then it places the zip of your project in the local registry so you can install it elsewhere. The command also updates package.json, creates and pushes git tags for the release and a changelog. To release a package you need to add `{ "empRelease": true }` to your package.json.
 
@@ -42,7 +42,7 @@ With `emp upgrade` you can upgrade your packages to the latest versions. It will
 
 With `emp build-release` you have an interactive command that lets to checkout an old release of your package and build it to your local registry. This is used if your local registry is missing a specific version that you need to use in other projects.
 
-## Project templates
+## 3. Project templates
 
 The `emp new` command is designed to help you automatically create new project templates for when creating a new coding repository. A project template is basically a boilerplate with a collection of relevant files to quickly get started with a new project (think create-react-app but for any project). A project templates can contain any files and you can make many templates for different use cases. For instance if you want a template for a node app you can fill the template with files like webpack, babel, package.json and some basic code files with hello world logic.
 
