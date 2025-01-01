@@ -269,3 +269,4 @@ You can use `generated` to provide variables that are automatically generated fo
 ```
 
 In the scenario if you place `$devJwtSecret$` in your template file it will get an automatically generated crypto secret. Please consider `src/types.ts` and `GeneratedVariableType` for all types of generated variables that are available.
+
