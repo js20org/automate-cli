@@ -13,6 +13,9 @@ import {
 import { ICommand } from './types';
 import { handleArgs } from './utils';
 
+//@ts-ignore Injected by DefinePlugin
+const codeVersion = CODE_VERSION;
+
 const commands: ICommand[] = [
     {
         subcommand: 'build-release',
@@ -56,7 +59,7 @@ const run = async () => {
     const logger = new DefaultLogger(shouldLogVerbose);
 
     try {
-        await handleArgs(logger, commands);
+        await handleArgs(logger, commands, codeVersion);
     } catch (e) {
         handleError(logger, e);
     }

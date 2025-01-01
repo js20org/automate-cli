@@ -1,4 +1,6 @@
 const path = require('path');
+const { DefinePlugin } = require('webpack');
+const { version } = require('./package.json');
 
 module.exports = {
     mode: 'production',
@@ -9,6 +11,11 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js'],
     },
+    plugins: [
+        new DefinePlugin({
+            CODE_VERSION: JSON.stringify(version),
+        }),
+    ],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),

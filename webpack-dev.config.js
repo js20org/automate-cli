@@ -1,4 +1,5 @@
 const path = require('path');
+const { DefinePlugin } = require('webpack');
 
 module.exports = {
     entry: {
@@ -6,6 +7,11 @@ module.exports = {
     },
     target: 'node',
     mode: 'development',
+    plugins: [
+        new DefinePlugin({
+            CODE_VERSION: JSON.stringify('dev'),
+        }),
+    ],
     module: {
         rules: [
             {

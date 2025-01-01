@@ -3,20 +3,20 @@ import { ILogger, fontBright, fontGreen } from 'js-common-node';
 import { Environment } from '../environment';
 import { ICommand } from '../types';
 
-const showHelp = (logger: ILogger, commands: ICommand[]) => {
+const showHelp = (logger: ILogger, commands: ICommand[], codeVersion: string) => {
     const items = commands
         .map((c) => `  ${fontBright(c.subcommand)}: \n    ${c.description}`)
         .join('\n');
 
-    logger.log(`The following commands are available:\n\n${items}`);
+    logger.log(`@js20/automate-cli (${codeVersion}). The following commands are available:\n\n${items}`);
 };
 
-export const handleArgs = async (logger: ILogger, commands: ICommand[]) => {
+export const handleArgs = async (logger: ILogger, commands: ICommand[], codeVersion: string) => {
     const args = process.argv.slice(2);
     const shouldShowHelp = args.includes('--help');
 
     if (shouldShowHelp) {
-        return showHelp(logger, commands);
+        return showHelp(logger, commands, codeVersion);
     }
 
     const isDebugMode = args.includes('--debug');
