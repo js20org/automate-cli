@@ -43,7 +43,7 @@ const performRelease = async (
     assertFileDoesNotExists(fullPath);
 
     await runPackageJsonScript(logger, PackageJsonScript.BUILD);
-    await executor.execute('yarn pack');
+    await executor.execute('npm pack');
 
     assertFileExists(fullPath);
 

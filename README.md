@@ -26,17 +26,17 @@ Run `emp commit`, the CLI will ask relevant questions and perform actions, while
 
 ## 2. Private package repository
 
-When standing in your code repository, you can run `emp release` and the guide will help you to create a new release. Under the hood it will run `yarn build` and `yarn pack` for you, and then it places the zip of your project in the local registry so you can install it elsewhere. The command also updates package.json, creates and pushes git tags for the release and a changelog. To release a package you need to add `{ "empRelease": true }` to your package.json.
+When standing in your code repository, you can run `emp release` and the guide will help you to create a new release. Under the hood it will run `npm run build` and `npm pack` for you, and then it places the zip of your project in the local registry so you can install it elsewhere. The command also updates package.json, creates and pushes git tags for the release and a changelog. To release a package you need to add `{ "empRelease": true }` to your package.json.
 
 ### Install released package
 
-In a different repository, you can run `emp install` and install one of your released packages. The command will guide you through choosing between packages and then place the zip of the package in a `.dependencies` folder in your repo. It will then locally link your zip file in your package.json and run `yarn install` to add it to your node_modules.
+In a different repository, you can run `emp install` and install one of your released packages. The command will guide you through choosing between packages and then place the zip of the package in a `.dependencies` folder in your repo. It will then locally link your zip file in your package.json and run `npm install` to add it to your node_modules.
 
 You can commit the zip to your git repo if you want to share them with other developers in your organization or if you build with a CI/CD pipelines.
 
 ### Upgrade released package
 
-With `emp upgrade` you can upgrade your packages to the latest versions. It will replace the zips in `.dependencies` with new ones and add new relative paths to your package.json, and finish with `yarn install`.
+With `emp upgrade` you can upgrade your packages to the latest versions. It will replace the zips in `.dependencies` with new ones and add new relative paths to your package.json, and finish with `npm install`.
 
 ### Add historic release to your local repository
 

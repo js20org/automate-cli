@@ -101,7 +101,7 @@ export const runPackageJsonScript = async (
     script: PackageJsonScript
 ) => {
     const executor = new Executor(logger);
-    return await executor.execute(`yarn ${script}`);
+    return await executor.execute(`npm run ${script}`);
 };
 
 export const getVerifiedPackageJson = (

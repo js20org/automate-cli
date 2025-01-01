@@ -171,7 +171,7 @@ const commitChanges = async (logger: ILogger, upgradeItems: IUpgradeItem[]) => {
             .flat(1)
             .filter((i) => !!i);
 
-        const commitFiles = [...upgradeFiles, 'yarn.lock', 'package.json'];
+        const commitFiles = [...upgradeFiles, 'package.json', 'package-lock.json'];
         const commitMessage = `${COMMIT_PREFIX}- Automatically upgraded package versions`;
 
         await createGitCommit(logger, commitFiles, commitMessage);

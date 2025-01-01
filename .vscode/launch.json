@@ -1,10 +1,10 @@
 {
     "configurations": [
         {
-            "name": "Launch via yarn",
+            "name": "Launch via npm",
             "request": "launch",
-            "runtimeArgs": ["dev", "new", "--debug"],
-            "runtimeExecutable": "yarn",
+            "runtimeArgs": ["run", "dev", "new", "--debug"],
+            "runtimeExecutable": "npm",
             "skipFiles": ["<node_internals>/**"],
             "type": "node",
             "console": "externalTerminal"
