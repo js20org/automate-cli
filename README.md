@@ -1,47 +1,48 @@
 # README
 
-This CLI will automate common tasks such as package versioning, releases, updating packages etc. and place it in a local registry on your machine. This is useful if you have libraries used between several applications but don't want to push them to public NPM or pay for a private repository.
+This is a developer CLI designed to automate common problems for js20 apps.
+This CLI solves the following problems:
 
-## Install CLI / Update CLI
+* [Commit helper] Automates git add, commit, branch checkout, PR creation
+* [Private package repository] Allows you to publish packages in a local repository. Useful for you private proprietary repositories that you do not want to share with 3rd party providers. Automatic semantic release and changelog is built in out of the box.
+* [Project templates] Allows you to create project templates and then generate project boilerplates for new projects
 
-Install with:
-`yarn global add emp-automate-cli`
+## Install, update
 
-Update with:
-`yarn global upgrade emp-automate-cli`
+Install:
+`npm install -g @js20/automate-cli`
 
-## Deploy
+Update:
+`npm update -g @js20/automate-cli`
 
-If you have access to this npm account, manually bump version and run `yarn build` and `npm publish`
+You should now have a global command `emp` that you can run like:
+`emp --help`
 
-## Commands
+## High level commands
+Use `emp --help` to list all commands. Add flag `--debug` to debug things like writing files with the `new` command.
 
-Add flag `--help` to list all commands.
-Add flag `--debug` to debug things like writing files with the `new` command.
+## Commit helper
+Run `emp commit`, the CLI will ask relevant questions and perform actions, while logging exactly what it is doing behind the scenes.
 
-### emp release
+## Private package repository
 
-Creates a new release of a package. Runs `yarn build` and `yarn pack` and then places the zip of your project in the local registry so you can install it elsewhere. Also creates tags for the release and a changelog.
+When standing in your code repository, you can run `emp release` and the guide will help you to create a new release. Under the hood it will run `yarn build` and `yarn pack` for you, and then it places the zip of your project in the local registry so you can install it elsewhere. The command also updates package.json, creates and pushes git tags for the release and a changelog. To release a package you need to add `{ "empRelease": true }` to your package.json.
 
-### emp install
+### Install released package
 
-Install one of your released packages in another application. The command will guide you through choosing between packages and then place the zip of the package in a `.dependencies` folder in your repo. It will then locally link your zip file in your package.json and run `yarn install` to add it to your node_modules.
+In a different repository, you can run `emp install` and install one of your released packages. The command will guide you through choosing between packages and then place the zip of the package in a `.dependencies` folder in your repo. It will then locally link your zip file in your package.json and run `yarn install` to add it to your node_modules.
 
 You can commit the zip to your git repo if you want to share them with other developers in your organization or if you build with a CI/CD pipelines.
 
-### emp upgrade
+### Upgrade released package
 
-Upgrades your packages to the latest versions. It will replace the zips in `.dependencies` with new ones and add new relative paths to your package.json, and finish with `yarn install`.
+With `emp upgrade` you can upgrade your packages to the latest versions. It will replace the zips in `.dependencies` with new ones and add new relative paths to your package.json, and finish with `yarn install`.
 
-### emp build-release
+### Add historic release to your local repository
 
-This interactive command lets to checkout an old release of your package and build it to your local registry. This is used if your local registry is missing a specific version that you need to use in other projects.
+With `emp build-release` you have an interactive command that lets to checkout an old release of your package and build it to your local registry. This is used if your local registry is missing a specific version that you need to use in other projects.
 
-### emp commit
-
-This is a utility command that makes commiting quicker. Will add files, ask for commit message and push to the branch of your choice. Can also open the Pull Request window in your browser for that specific branch.
-
-### emp new & emp template-setup
+## Project templates
 
 The `emp new` command is designed to help you automatically create new project templates for when creating a new coding repository. A project template is basically a boilerplate with a collection of relevant files to quickly get started with a new project (think create-react-app but for any project). A project templates can contain any files and you can make many templates for different use cases. For instance if you want a template for a node app you can fill the template with files like webpack, babel, package.json and some basic code files with hello world logic.
 
@@ -116,15 +117,15 @@ If the user answers yes to auth, the final file structure for the new project wi
     > webpack-dev.config.js
 ```
 
-#### User questions
+### User questions
 
 You can ask any questions to the user while installing the template to make different decisions. We can choose whether to ask for a string or yes/no boolean. We define the questions, and define what the variable name should be. You can choose any format of variable names, e.g. `$projectName$` or `###projectName` or whatever format you want.
 
-#### Different files depending on answers
+### Different files depending on answers
 
 As you can see in the example above we can add multiple paths in the "files" array. The first one with only a path will always be included and all the files in that directory will be added to your new project. The second one with "includeIf" will only add the included files if the answer to the auth question `$shouldUseAuth$` is true.
 
-#### Replacing values in files
+### Replacing values in files
 
 You can use any variable inside the files of your template, and the system will automatically replace all the variables with the value the user chose. So for instance we ask for the name of the package, and in the package.json file we can then reference the variable like this:
 
@@ -142,7 +143,7 @@ If the user answers "test" the package.json will automatically be:
 }
 ```
 
-#### Hidden files
+### Hidden files
 
 If you add an underscore at the start of a file name it will always be removed. So `_.gitignore` will become `.gitignore`, `_tsconfig.json` will become `tsconfig.json` etc. This is to allow you to prevent these files from having any effect on your templates, for instance if you push the template to git and want to prevent the gitignore behaviour.
 

@@ -11,6 +11,7 @@
         "emp": "./bin/emp-automate-cli.js"
     },
     "scripts": {
+        "deploy": "npm run build && npm publish",
         "prebuild": "rm -r ./dist || true",
         "build": "NODE_ENV=production webpack --config ./webpack.config.js",
         "dev": "webpack --config webpack-dev.config.js && node ./dist/dev.js"
