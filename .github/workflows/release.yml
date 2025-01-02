@@ -25,7 +25,7 @@ jobs:
 
       - name: Get next version
         id: next_version
-        run: echo "NEXT_VERSION=$(npm run semantic-release --dry-run | grep -oP '(?<=The next release version is ).*')"
+        run: echo "NEXT_VERSION=$(npx semantic-release --dry-run | grep -oP '(?<=The next release version is ).*')"
 
       - name: Build the project
         run: npm run build
@@ -36,4 +36,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run semantic-release
+        run: npx semantic-release
