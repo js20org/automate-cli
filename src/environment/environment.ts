@@ -1,13 +1,12 @@
 import { ILogger } from '@js20/node-utils';
 
-import { IConfig, IEnvironment, IRegistry, IResolvedTemplate } from '../types';
-import { getConfigFile, getRegistries, getTemplates } from '../actions';
+import { IConfig, IEnvironment, IResolvedTemplate } from '../types';
+import { getConfigFile, getTemplates } from '../actions';
 
 export class Environment implements IEnvironment {
     private isDebugMode: boolean;
-    private config: IConfig;
-    private registries: IRegistry[];
-    private templates: IResolvedTemplate[];
+    private config: IConfig | null = null;
+    private templates: IResolvedTemplate[] | null = null;
 
     constructor(isDebugMode: boolean) {
         this.isDebugMode = isDebugMode;
@@ -15,12 +14,7 @@ export class Environment implements IEnvironment {
 
     async initialize(logger: ILogger) {
         this.config = await getConfigFile(logger);
-        this.registries = getRegistries(this.config);
         this.templates = getTemplates(logger, this.config);
-
-        for (const registry of this.registries) {
-            await registry.initialize();
-        }
     }
 
     isDebug() {
@@ -28,14 +22,10 @@ export class Environment implements IEnvironment {
     }
 
     getConfig() {
-        return this.config;
-    }
-
-    getRegistries() {
-        return this.registries;
+        return this.config!;
     }
 
     getTemplates() {
-        return this.templates;
+        return this.templates!;
     }
 }

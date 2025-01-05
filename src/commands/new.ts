@@ -68,7 +68,7 @@ const askQuestions = async (questions: ITemplateQuestion[]) => {
             askIf,
         } = templateQuestion;
 
-        const shouldAsk = shouldAskQuestion(askIf, variables);
+        const shouldAsk = shouldAskQuestion(askIf!, variables);
         const value = shouldAsk
             ? await askSingleQuestion(userQuestion, type)
             : '';
@@ -293,7 +293,7 @@ const copyFiles = async (
     rootPath: string,
     files: ITemplateFiles[]
 ) => {
-    const allFiles = [];
+    const allFiles: any[] = [];
 
     for (const fileGroup of files) {
         const fullPath = path.resolve(rootPath, fileGroup.path);
@@ -359,7 +359,7 @@ export const runNew = async (logger: ILogger, environment: IEnvironment) => {
         (p) => p.name === selectedProjectName
     );
 
-    await generateProject(filesystemService, selectedTemplate);
+    await generateProject(filesystemService, selectedTemplate!);
 
     try {
         await executorService.execute('npm install');
