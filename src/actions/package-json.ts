@@ -4,7 +4,7 @@ import {
     getJsonFileContent,
     saveJsonFile,
     ILogger,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import {
     getExtractedSemanticVersion,

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { ILogger } from 'js-common-node';
+import { ILogger } from '@js20/node-utils';
 
 import { IFilesystemService } from '../types';
 

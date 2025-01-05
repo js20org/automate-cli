@@ -1,4 +1,4 @@
-import { ILogger } from 'js-common-node';
+import { ILogger } from '@js20/node-utils';
 
 export interface ICommit {
     id: string;

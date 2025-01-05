@@ -1,4 +1,4 @@
-import { askForBoolean, fontDim, fontGreen, ILogger } from 'js-common-node';
+import { askForBoolean, fontDim, fontGreen, ILogger } from '@js20/node-utils';
 
 import {
     assertGitBranchUpToDate,

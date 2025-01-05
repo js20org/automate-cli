@@ -1,4 +1,4 @@
-import { ILogger } from 'js-common-node';
+import { ILogger } from '@js20/node-utils';
 
 import { IConfig, IEnvironment, IRegistry, IResolvedTemplate } from '../types';
 import { getConfigFile, getRegistries, getTemplates } from '../actions';

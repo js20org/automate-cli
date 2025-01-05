@@ -1,4 +1,4 @@
-import { DefaultLogger, handleError } from 'js-common-node';
+import { DefaultLogger, handleError } from '@js20/node-utils';
 
 import {
     runBuildRelease,

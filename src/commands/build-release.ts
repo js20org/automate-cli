@@ -1,4 +1,4 @@
-import { askForOption, ILogger } from 'js-common-node';
+import { askForOption, ILogger } from '@js20/node-utils';
 
 import {
     assertNoGitChanges,

@@ -5,7 +5,7 @@ import {
     fontDim,
     fontUnderscore,
     ILogger,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import {
     addAllGitFiles,

@@ -6,7 +6,7 @@ import {
     getOrCreateJsonFile,
     hasFile,
     saveJsonFile,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import { getLargestSemanticVersion, getParsedSemanticVersion } from '../utils';
 import { IPackageVersion, IRegistry, IRegistryConfigLocal } from '../types';

@@ -1,5 +1,5 @@
 import path from 'path';
-import { ILogger, fontDim, getJsonFileContent, hasFile } from 'js-common-node';
+import { ILogger, fontDim, getJsonFileContent, hasFile } from '@js20/node-utils';
 
 import { IConfig, IEnvironment, IResolvedTemplate, ITemplate } from '../types';
 

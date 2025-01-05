@@ -1,4 +1,4 @@
-import { askForOption, askForOptionalString, ILogger } from 'js-common-node';
+import { askForOption, askForOptionalString, ILogger } from '@js20/node-utils';
 
 import {
     assertGitBranchUpToDate,

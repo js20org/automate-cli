@@ -5,7 +5,7 @@ import {
     getFileHash,
     safeDeleteFile,
     ILogger,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import { CustomOption, getCwdPath, getOption, getOptionDescription } from '.';
 import { IRegistry } from '../types';

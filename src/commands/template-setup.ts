@@ -4,7 +4,7 @@ import {
     fontDim,
     isValidDirectory,
     ILogger,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import { IEnvironment } from '../types';
 import { addTemplateRoot, getCwdPath } from '../actions';

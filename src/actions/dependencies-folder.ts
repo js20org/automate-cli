@@ -5,7 +5,7 @@ import {
     getFileHash,
     hasFile,
     safeDeleteFile,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import { IPackageVersion, IRegistry } from '../types';
 import { getCwdPath } from './path';

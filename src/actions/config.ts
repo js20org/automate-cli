@@ -10,7 +10,7 @@ import {
     hasFile,
     isValidDirectory,
     saveJsonFile,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import { IConfig, IRegistry, IRegistryConfig, RegistryType } from '../types';
 

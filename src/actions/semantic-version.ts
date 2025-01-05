@@ -1,4 +1,4 @@
-import { saveJsonFile, ILogger } from 'js-common-node';
+import { saveJsonFile, ILogger } from '@js20/node-utils';
 
 import {
     createGitCommit,

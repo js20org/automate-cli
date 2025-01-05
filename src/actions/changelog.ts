@@ -2,7 +2,7 @@ import {
     getJsonFileContent,
     getOrCreateJsonFile,
     saveJsonFile,
-} from 'js-common-node';
+} from '@js20/node-utils';
 
 import { IChangelog } from '../types';
 import { getCwdPath } from './path';

@@ -15,8 +15,8 @@
         "build": "node build.config.js"
     },
     "dependencies": {
+        "@js20/node-utils": "^1.4.4",
         "glob": "10.2.7",
-        "js-common-node": "^1.0.0",
         "prompts": "^2.4.0"
     },
     "devDependencies": {

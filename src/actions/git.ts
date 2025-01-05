@@ -1,4 +1,4 @@
-import { assertIsString, Executor, ILogger } from 'js-common-node';
+import { assertIsString, Executor, ILogger } from '@js20/node-utils';
 import { ICommit } from '../types';
 
 export const getGitChanges = async (logger: ILogger) => {

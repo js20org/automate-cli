@@ -1,4 +1,4 @@
-import { ILogger, fontBright, fontGreen } from 'js-common-node';
+import { ILogger, fontBright, fontGreen } from '@js20/node-utils';
 
 import { Environment } from '../environment';
 import { ICommand } from '../types';

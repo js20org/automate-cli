@@ -1,4 +1,4 @@
-import { fontDim, ILogger } from 'js-common-node';
+import { fontDim, ILogger } from '@js20/node-utils';
 import { IFilesystemService } from '../types';
 
 export class MockFilesystemService implements IFilesystemService {

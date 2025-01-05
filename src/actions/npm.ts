@@ -1,4 +1,4 @@
-import { ILogger, Executor } from 'js-common-node';
+import { ILogger, Executor } from '@js20/node-utils';
 
 export const runNpmInstall = async (logger: ILogger) => {
     const executor = new Executor(logger);
