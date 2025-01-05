@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/js20org/automate-cli/compare/v2.2.2...v2.2.3) (2025-01-05)
+
+
+### Bug Fixes
+
+* added js20 node ([f1d61b5](https://github.com/js20org/automate-cli/commit/f1d61b5918c7ebcaef8ba3779ea45eba19a0aad8))
+
 ## [2.2.2](https://github.com/js20org/automate-cli/compare/v2.2.1...v2.2.2) (2025-01-02)
 
 
