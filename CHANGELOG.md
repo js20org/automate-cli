@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/js20org/automate-cli/compare/v2.2.3...v2.3.0) (2025-01-05)
+
+
+### Features
+
+* Removed everything related to local repository ([3bcaed3](https://github.com/js20org/automate-cli/commit/3bcaed3009a482b13509f67abb34b635dedde1e5))
+
 ## [2.2.3](https://github.com/js20org/automate-cli/compare/v2.2.2...v2.2.3) (2025-01-05)
 
 
